@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep Tracker - PureParent</title>
+    <link rel="stylesheet" href="premium-styles.css">
+    <link rel="stylesheet" href="back-nav-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Premium Header -->
+    <header class="premium-header">
+        <nav class="main-nav">
+            <div class="container">
+                <div class="nav-left">
+                    <div class="logo-premium">
+                        <img src="img/logo2.png" alt="PureParent">
+                        <div class="logo-text">
+                            <h1>PureParent</h1>
+                            <span>Premium Baby Care</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user-circle"></i>
+                    </a>
+                    <a href="wishlist.html" class="nav-link">
+                        <i class="fas fa-heart"></i>
+                    </a>
+                    <a href="cart.html" class="nav-link cart-premium">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Sleep Section -->
+    <section class="sleep-section">
+        <div class="container">
+            <div class="back-nav">
+                <a href="tools.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Mom Tools</span>
+                </a>
+            </div>
+            <h1>😴 Sleep Tracker</h1>
+            
+            <!-- Sleep Stats -->
+            <div class="sleep-stats">
+                <div class="sleep-stat">
+                    <div class="sleep-icon">🌙</div>
+                    <div class="sleep-info">
+                        <h3>Last Night</h3>
+                        <div class="sleep-value" id="lastNightSleep">8h 30m</div>
+                    </div>
+                </div>
+                <div class="sleep-stat">
+                    <div class="sleep-icon">☀️</div>
+                    <div class="sleep-info">
+                        <h3>Today's Naps</h3>
+                        <div class="sleep-value" id="todayNaps">2h 15m</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sleep Issue Checker -->
+            <div class="tool-card">
+                <h2>Sleep Issue Helper</h2>
+                <p>Having sleep troubles? Get instant solutions:</p>
+                <div class="sleep-issues">
+                    <button class="issue-btn" onclick="showSleepSolution('crying')">😭 Won't Stop Crying</button>
+                    <button class="issue-btn" onclick="showSleepSolution('waking')">😴 Frequent Night Waking</button>
+                    <button class="issue-btn" onclick="showSleepSolution('napping')">☀️ Won't Nap During Day</button>
+                    <button class="issue-btn" onclick="showSleepSolution('bedtime')">🌙 Bedtime Struggles</button>
+                </div>
+                <div id="sleepSolution" class="sleep-solution"></div>
+            </div>
+
+            <!-- Sleep Log -->
+            <div class="tool-card">
+                <h2>Sleep Log</h2>
+                <div class="sleep-log" id="sleepLog">
+                    <div class="no-sleep">No sleep logged today</div>
+                </div>
+                <button class="add-sleep-btn" onclick="logSleep()">
+                    <i class="fas fa-plus"></i> Log Sleep
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav-premium">
+        <a href="index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="shop.html" class="nav-item">
+            <i class="fas fa-store"></i>
+            <span>Shop</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <i class="fas fa-box"></i>
+            <span>Orders</span>
+        </a>
+        <a href="tools.html" class="nav-item">
+            <i class="fas fa-heart"></i>
+            <span>Mom Tools</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <script>
+        const sleepSolutions = {
+            crying: {
+                title: "Baby Won't Stop Crying",
+                solutions: [
+                    "🍼 Check if baby is hungry - offer feeding",
+                    "💩 Check diaper - change if needed", 
+                    "🤗 Try swaddling for comfort and security",
+                    "🎵 Use white noise or gentle music",
+                    "🚶 Walk around while holding baby",
+                    "🌡️ Check room temperature (68-70°F ideal)"
+                ],
+                emergency: "If crying persists for 3+ hours, contact pediatrician"
+            },
+            waking: {
+                title: "Frequent Night Waking",
+                solutions: [
+                    "🌙 Establish consistent bedtime routine",
+                    "🍼 Ensure baby is well-fed before sleep",
+                    "🛏️ Check if baby has outgrown swaddle",
+                    "🔇 Minimize noise and light during night feeds",
+                    "⏰ Wait a few minutes before responding",
+                    "🌡️ Ensure comfortable room temperature"
+                ],
+                emergency: "Normal for babies under 6 months to wake frequently"
+            },
+            napping: {
+                title: "Won't Nap During Day",
+                solutions: [
+                    "⏰ Watch for sleepy cues (yawning, rubbing eyes)",
+                    "🌅 Create consistent nap schedule",
+                    "🌑 Darken room for daytime naps",
+                    "🤫 Use same soothing techniques as bedtime",
+                    "🚶 Try motion naps (stroller, car seat)",
+                    "⏱️ Don't let baby get overtired"
+                ],
+                emergency: "Some babies need less daytime sleep"
+            },
+            bedtime: {
+                title: "Bedtime Struggles", 
+                solutions: [
+                    "🛁 Start calming bedtime routine 30 minutes early",
+                    "📱 Avoid screens 1 hour before bedtime",
+                    "🍼 Ensure baby isn't hungry or overfed",
+                    "🎵 Use consistent sleep associations",
+                    "🤗 Try gentle sleep training methods",
+                    "⏰ Move bedtime earlier if baby is overtired"
+                ],
+                emergency: "Consistency is key - stick to routine for 1-2 weeks"
+            }
+        };
+
+        function showSleepSolution(issue) {
+            const solution = sleepSolutions[issue];
+            const container = document.getElementById('sleepSolution');
+            
+            container.innerHTML = `
+                <div class="solution-content">
+                    <h3>${solution.title}</h3>
+                    <div class="solutions-list">
+                        ${solution.solutions.map(sol => `<div class="solution-item">${sol}</div>`).join('')}
+                    </div>
+                    <div class="emergency-note">${solution.emergency}</div>
+                </div>
+            `;
+            container.style.display = 'block';
+        }
+
+        function logSleep() {
+            const duration = prompt('Sleep duration (e.g., 2h 30m):');
+            if (duration) {
+                const sleepData = JSON.parse(localStorage.getItem('sleepData')) || [];
+                sleepData.push({
+                    time: new Date().toISOString(),
+                    duration: duration
+                });
+                localStorage.setItem('sleepData', JSON.stringify(sleepData));
+                updateSleepLog();
+                alert(`😴 Sleep logged: ${duration}`);
+            }
+        }
+
+        function updateSleepLog() {
+            const sleepData = JSON.parse(localStorage.getItem('sleepData')) || [];
+            const today = new Date().toDateString();
+            const todaySleep = sleepData.filter(s => new Date(s.time).toDateString() === today);
+            
+            const container = document.getElementById('sleepLog');
+            if (todaySleep.length === 0) {
+                container.innerHTML = '<div class="no-sleep">No sleep logged today</div>';
+            } else {
+                container.innerHTML = todaySleep.map(sleep => `
+                    <div class="sleep-entry">
+                        <span class="sleep-time">${new Date(sleep.time).toLocaleTimeString('en-IN', {hour: '2-digit', minute: '2-digit'})}</span>
+                        <span class="sleep-duration">${sleep.duration}</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCountElement = document.querySelector('.cart-count');
+            if (cartCountElement) {
+                cartCountElement.textContent = totalItems;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCount();
+            updateSleepLog();
+        });
+    </script>
+
+    <style>
+        .sleep-section {
+            padding: 20px 0 100px;
+            background: var(--gray-50);
+            min-height: 100vh;
+        }
+
+        .sleep-section h1 {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .tool-card h2 {
+            font-size: 24px;
+            color: var(--gray-900);
+            margin-bottom: 16px;
+        }
+
+        .sleep-issues {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .issue-btn {
+            background: var(--gray-50);
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .issue-btn:hover {
+            background: white;
+            border-color: var(--primary-blue);
+            transform: translateY(-2px);
+        }
+
+        .sleep-solution {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: var(--gray-50);
+            border-radius: 12px;
+        }
+
+        .solution-content h3 {
+            color: var(--primary-blue);
+            margin-bottom: 16px;
+        }
+
+        .solution-item {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .solution-item:last-child {
+            border-bottom: none;
+        }
+
+        .emergency-note {
+            background: var(--accent-orange);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 16px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .sleep-entry {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .sleep-time {
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        .sleep-duration {
+            color: var(--gray-700);
+        }
+
+        .no-sleep {
+            text-align: center;
+            color: var(--gray-500);
+            padding: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .sleep-issues {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</body>
+</html>

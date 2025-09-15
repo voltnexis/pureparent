@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Profile - PureParent</title>
+    <link rel="stylesheet" href="premium-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- Premium Header -->
+    <header class="premium-header">
+        <nav class="main-nav">
+            <div class="container">
+                <div class="nav-left">
+                    <div class="logo-premium">
+                        <img src="img/logo2.png" alt="PureParent">
+                        <div class="logo-text">
+                            <h1>PureParent</h1>
+                            <span>Premium Baby Care</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user-circle"></i>
+                    </a>
+                    <a href="cart.html" class="nav-link cart-premium">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>👶 Tell us about your baby</h1>
+                <p>Help us personalize your experience</p>
+            </div>
+
+            <!-- Baby Profile Form -->
+            <div class="auth-form active">
+                <form id="babyProfileForm">
+                    <div class="input-group">
+                        <i class="fas fa-baby"></i>
+                        <input type="text" id="babyName" placeholder="Baby's Name *" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fas fa-calendar"></i>
+                        <input type="date" id="babyDOB" placeholder="Date of Birth *" required>
+                    </div>
+                    
+                    <div class="gender-selection">
+                        <label>Gender *</label>
+                        <div class="gender-options">
+                            <label class="gender-option">
+                                <input type="radio" name="gender" value="boy" required>
+                                <span class="gender-icon">👦</span>
+                                <span>Boy</span>
+                            </label>
+                            <label class="gender-option">
+                                <input type="radio" name="gender" value="girl" required>
+                                <span class="gender-icon">👧</span>
+                                <span>Girl</span>
+                            </label>
+                            <label class="gender-option">
+                                <input type="radio" name="gender" value="other" required>
+                                <span class="gender-icon">👶</span>
+                                <span>Other</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="feeding-selection">
+                        <label>Feeding Type *</label>
+                        <div class="feeding-options">
+                            <label class="feeding-option">
+                                <input type="radio" name="feeding" value="breast" required>
+                                <span class="feeding-icon">🤱</span>
+                                <span>Breast</span>
+                            </label>
+                            <label class="feeding-option">
+                                <input type="radio" name="feeding" value="formula" required>
+                                <span class="feeding-icon">🍼</span>
+                                <span>Formula</span>
+                            </label>
+                            <label class="feeding-option">
+                                <input type="radio" name="feeding" value="both" required>
+                                <span class="feeding-icon">🤱🍼</span>
+                                <span>Both</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <textarea id="allergies" placeholder="Allergies or medical notes (optional)" rows="3"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="auth-btn primary">Complete Profile</button>
+                </form>
+                
+                <div class="skip-section">
+                    <p><a href="#" onclick="skipProfile()">Skip for now</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Setting up your profile...</p>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav-premium">
+        <a href="index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="shop.html" class="nav-item">
+            <i class="fas fa-store"></i>
+            <span>Shop</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <i class="fas fa-box"></i>
+            <span>Orders</span>
+        </a>
+        <a href="tools.html" class="nav-item">
+            <i class="fas fa-heart"></i>
+            <span>Mom Tools</span>
+        </a>
+        <a href="profile.html" class="nav-item active">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <script>
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCountElement = document.querySelector('.cart-count');
+            if (cartCountElement) {
+                cartCountElement.textContent = totalItems;
+            }
+        }
+        document.addEventListener('DOMContentLoaded', updateCartCount);
+    </script>
+    <script src="supabase-config.js"></script>
+    <script>
+        let isEditMode = false;
+        
+        // Profile setup JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            loadExistingProfile();
+            setupEventListeners();
+        });
+
+        function loadExistingProfile() {
+            const savedProfile = localStorage.getItem('babyProfile');
+            if (savedProfile) {
+                const profile = JSON.parse(savedProfile);
+                isEditMode = true;
+                
+                // Fill form with existing data
+                document.getElementById('babyName').value = profile.name || '';
+                document.getElementById('babyDOB').value = profile.dateOfBirth || '';
+                document.getElementById('allergies').value = profile.allergies || '';
+                
+                if (profile.gender) {
+                    document.querySelector(`input[name="gender"][value="${profile.gender}"]`).checked = true;
+                }
+                
+                if (profile.feeding) {
+                    document.querySelector(`input[name="feeding"][value="${profile.feeding}"]`).checked = true;
+                }
+                
+                // Update form title
+                document.querySelector('.auth-header h1').textContent = '✏️ Edit Baby Profile';
+                document.querySelector('.auth-header p').textContent = 'Update your baby\'s information';
+                document.querySelector('.auth-btn.primary').textContent = 'Update Profile';
+            }
+        }
+
+        function setupEventListeners() {
+            document.getElementById('babyProfileForm').addEventListener('submit', handleProfileSubmit);
+        }
+
+        function handleProfileSubmit(e) {
+            e.preventDefault();
+            showLoading(true);
+
+            const babyName = document.getElementById('babyName').value;
+            const babyDOB = document.getElementById('babyDOB').value;
+            const gender = document.querySelector('input[name="gender"]:checked')?.value;
+            const feeding = document.querySelector('input[name="feeding"]:checked')?.value;
+            const allergies = document.getElementById('allergies').value;
+
+            if (!gender || !feeding) {
+                showError('Please select gender and feeding type');
+                showLoading(false);
+                return;
+            }
+
+            const profileData = {
+                name: babyName,
+                dateOfBirth: babyDOB,
+                gender: gender,
+                feeding: feeding,
+                allergies: allergies,
+                createdAt: isEditMode ? JSON.parse(localStorage.getItem('babyProfile')).createdAt : new Date().toISOString()
+            };
+
+            try {
+                // Save to localStorage
+                localStorage.setItem('babyProfile', JSON.stringify(profileData));
+                
+                showSuccess(isEditMode ? 'Profile updated successfully!' : 'Profile created successfully!');
+                
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+
+            } catch (error) {
+                showError('Failed to save profile. Please try again.');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function skipProfile() {
+            if (confirm('Are you sure you want to skip? You can add baby details later in your profile.')) {
+                window.location.href = 'index.html';
+            }
+        }
+
+        function showLoading(show) {
+            document.getElementById('loadingOverlay').style.display = show ? 'flex' : 'none';
+        }
+
+        function showError(message) {
+            clearMessages();
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.textContent = message;
+            document.querySelector('.auth-form').insertBefore(errorDiv, document.querySelector('form'));
+        }
+
+        function showSuccess(message) {
+            clearMessages();
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success-message';
+            successDiv.textContent = message;
+            document.querySelector('.auth-form').insertBefore(successDiv, document.querySelector('form'));
+        }
+
+        function clearMessages() {
+            const messages = document.querySelectorAll('.error-message, .success-message');
+            messages.forEach(msg => msg.remove());
+        }
+    </script>
+
+    <style>
+        .auth-container {
+            min-height: calc(100vh - 160px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: var(--gray-50);
+        }
+        
+        .auth-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--shadow-xl);
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .auth-header h1 {
+            font-family: var(--font-display);
+            font-size: 28px;
+            color: var(--primary-blue);
+            margin-bottom: 8px;
+        }
+        
+        .auth-header p {
+            color: var(--gray-600);
+            font-size: 16px;
+        }
+        
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .input-group i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-400);
+            z-index: 2;
+        }
+        
+        .input-group input, .input-group textarea {
+            width: 100%;
+            padding: 16px 16px 16px 48px;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+        
+        .input-group input:focus, .input-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+        }
+        
+        .gender-selection, .feeding-selection {
+            margin-bottom: 24px;
+        }
+
+        .gender-selection > label, .feeding-selection > label {
+            display: block;
+            color: var(--gray-900);
+            font-weight: 600;
+            margin-bottom: 16px;
+            font-size: 16px;
+        }
+
+        .gender-options, .feeding-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .gender-option, .feeding-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 12px;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .gender-option:hover, .feeding-option:hover {
+            border-color: var(--primary-blue);
+            background: var(--gray-50);
+        }
+
+        .gender-option input, .feeding-option input {
+            display: none;
+        }
+
+        .gender-option:has(input:checked), .feeding-option:has(input:checked) {
+            border-color: var(--primary-blue);
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        .gender-icon, .feeding-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .gender-option span:last-child, .feeding-option span:last-child {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+        
+        .auth-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 16px;
+        }
+        
+        .auth-btn.primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .skip-section {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .skip-section a {
+            color: var(--gray-500);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .skip-section a:hover {
+            color: var(--primary-blue);
+            text-decoration: underline;
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .loading-spinner {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--gray-200);
+            border-top: 4px solid var(--primary-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error-message {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .success-message {
+            background: #dcfce7;
+            color: #16a34a;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .gender-options, .feeding-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .auth-card {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</body>
+</html>

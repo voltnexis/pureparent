@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Reminders - PureParent</title>
+    <link rel="stylesheet" href="premium-styles.css">
+    <link rel="stylesheet" href="back-nav-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Premium Header -->
+    <header class="premium-header">
+        <nav class="main-nav">
+            <div class="container">
+                <div class="nav-left">
+                    <div class="logo-premium">
+                        <img src="img/logo2.png" alt="PureParent">
+                        <div class="logo-text">
+                            <h1>PureParent</h1>
+                            <span>Premium Baby Care</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user-circle"></i>
+                    </a>
+                    <a href="wishlist.html" class="nav-link">
+                        <i class="fas fa-heart"></i>
+                    </a>
+                    <a href="cart.html" class="nav-link cart-premium">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Health Section -->
+    <section class="health-section">
+        <div class="container">
+            <div class="back-nav">
+                <a href="tools.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Mom Tools</span>
+                </a>
+            </div>
+            <h1>🏥 Health Reminders</h1>
+            
+            <!-- Health Reminders -->
+            <div class="reminders-list" id="healthReminders">
+                <div class="reminder-item urgent">
+                    <div class="reminder-icon">💉</div>
+                    <div class="reminder-info">
+                        <h3>DPT Vaccination Due</h3>
+                        <p>DPT and Polio vaccination</p>
+                        <div class="reminder-due">Due in 2 weeks</div>
+                    </div>
+                </div>
+                <div class="reminder-item">
+                    <div class="reminder-icon">👁️</div>
+                    <div class="reminder-info">
+                        <h3>Eye Checkup</h3>
+                        <p>Regular vision screening</p>
+                        <div class="reminder-due">Schedule appointment</div>
+                    </div>
+                </div>
+                <div class="reminder-item">
+                    <div class="reminder-icon">🦷</div>
+                    <div class="reminder-info">
+                        <h3>First Dental Visit</h3>
+                        <p>First tooth or 12 months</p>
+                        <div class="reminder-due">Book appointment</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Emergency Contacts -->
+            <div class="tool-card">
+                <h2>🚨 Emergency Contacts</h2>
+                <div class="emergency-contacts">
+                    <a href="tel:108" class="emergency-btn">
+                        <i class="fas fa-phone-alt"></i>
+                        <div>
+                            <h3>Emergency Services</h3>
+                            <p>Call 108</p>
+                        </div>
+                    </a>
+                    <a href="tel:102" class="emergency-btn">
+                        <i class="fas fa-ambulance"></i>
+                        <div>
+                            <h3>Ambulance</h3>
+                            <p>Call 102</p>
+                        </div>
+                    </a>
+                    <a href="expert-booking.html" class="emergency-btn">
+                        <i class="fas fa-user-md"></i>
+                        <div>
+                            <h3>Pediatrician</h3>
+                            <p>Book consultation</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Health Tips -->
+            <div class="tool-card">
+                <h2>💡 Health Tips</h2>
+                <div class="health-tips">
+                    <div class="tip-item">
+                        <i class="fas fa-thermometer-half"></i>
+                        <div>
+                            <h3>Fever Management</h3>
+                            <p>Normal temp: 97-100°F. Call doctor if over 100.4°F in babies under 3 months.</p>
+                        </div>
+                    </div>
+                    <div class="tip-item">
+                        <i class="fas fa-hand-sparkles"></i>
+                        <div>
+                            <h3>Hand Hygiene</h3>
+                            <p>Wash hands before handling baby. Use sanitizer when soap isn't available.</p>
+                        </div>
+                    </div>
+                    <div class="tip-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <div>
+                            <h3>Vaccination Schedule</h3>
+                            <p>Follow recommended vaccination schedule. Keep vaccination card updated.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav-premium">
+        <a href="index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="shop.html" class="nav-item">
+            <i class="fas fa-store"></i>
+            <span>Shop</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <i class="fas fa-box"></i>
+            <span>Orders</span>
+        </a>
+        <a href="tools.html" class="nav-item">
+            <i class="fas fa-heart"></i>
+            <span>Mom Tools</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <script>
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCountElement = document.querySelector('.cart-count');
+            if (cartCountElement) {
+                cartCountElement.textContent = totalItems;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', updateCartCount);
+    </script>
+
+    <style>
+        .health-section {
+            padding: 20px 0 100px;
+            background: var(--gray-50);
+            min-height: 100vh;
+        }
+
+        .health-section h1 {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .tool-card h2 {
+            font-size: 24px;
+            color: var(--gray-900);
+            margin-bottom: 20px;
+        }
+
+        .emergency-contacts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .emergency-btn {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px;
+            background: var(--error-red);
+            color: white;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .emergency-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .emergency-btn:nth-child(2) {
+            background: var(--accent-orange);
+        }
+
+        .emergency-btn:nth-child(3) {
+            background: var(--primary-blue);
+        }
+
+        .emergency-btn i {
+            font-size: 24px;
+        }
+
+        .emergency-btn h3 {
+            font-size: 16px;
+            margin-bottom: 4px;
+            color: white;
+        }
+
+        .emergency-btn p {
+            font-size: 14px;
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        .health-tips {
+            display: grid;
+            gap: 20px;
+        }
+
+        .tip-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 20px;
+            background: var(--gray-50);
+            border-radius: 12px;
+        }
+
+        .tip-item i {
+            font-size: 24px;
+            color: var(--primary-blue);
+            margin-top: 4px;
+        }
+
+        .tip-item h3 {
+            font-size: 16px;
+            color: var(--gray-900);
+            margin-bottom: 4px;
+        }
+
+        .tip-item p {
+            font-size: 14px;
+            color: var(--gray-600);
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .emergency-contacts {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</body>
+</html>

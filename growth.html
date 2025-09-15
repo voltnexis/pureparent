@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baby Growth Tracker - PureParent</title>
+    <link rel="stylesheet" href="premium-styles.css">
+    <link rel="stylesheet" href="back-nav-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Premium Header -->
+    <header class="premium-header">
+        <nav class="main-nav">
+            <div class="container">
+                <div class="nav-left">
+                    <div class="logo-premium">
+                        <img src="img/logo2.png" alt="PureParent">
+                        <div class="logo-text">
+                            <h1>PureParent</h1>
+                            <span>Premium Baby Care</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user-circle"></i>
+                    </a>
+                    <a href="wishlist.html" class="nav-link">
+                        <i class="fas fa-heart"></i>
+                    </a>
+                    <a href="cart.html" class="nav-link cart-premium">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Growth Tracking Section -->
+    <section class="growth-section">
+        <div class="container">
+            <div class="back-nav">
+                <a href="tools.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Mom Tools</span>
+                </a>
+            </div>
+            <h1>👶 Baby Growth Tracker</h1>
+            
+            <!-- Baby Info Card -->
+            <div class="baby-info-card">
+                <div class="baby-avatar">
+                    <i class="fas fa-baby"></i>
+                </div>
+                <div class="baby-details">
+                    <h2 id="babyName">Your Little One</h2>
+                    <div class="age-display">
+                        <span id="babyAge">0 months old</span>
+                    </div>
+                    <div class="birth-date">
+                        <i class="fas fa-calendar"></i>
+                        <span id="birthDate">Set birth date</span>
+                    </div>
+                </div>
+                <button class="edit-btn" onclick="editBabyInfo()">
+                    <i class="fas fa-edit"></i>
+                </button>
+            </div>
+
+            <!-- Growth Stats -->
+            <div class="growth-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">📏</div>
+                    <div class="stat-info">
+                        <h3>Height</h3>
+                        <div class="stat-value" id="currentHeight">50 cm</div>
+                        <div class="stat-change">+2 cm this month</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⚖️</div>
+                    <div class="stat-info">
+                        <h3>Weight</h3>
+                        <div class="stat-value" id="currentWeight">3.2 kg</div>
+                        <div class="stat-change">+0.5 kg this month</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🧠</div>
+                    <div class="stat-info">
+                        <h3>Head Size</h3>
+                        <div class="stat-value" id="currentHead">35 cm</div>
+                        <div class="stat-change">+1 cm this month</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Milestones -->
+            <div class="milestones-section">
+                <h2>🎯 Development Milestones</h2>
+                <div class="milestones-grid" id="milestonesGrid">
+                    <!-- Milestones will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Product Suggestions -->
+            <div class="suggestions-section">
+                <h2>🛍️ Recommended for Your Baby</h2>
+                <p class="suggestions-subtitle">Based on age and development milestones</p>
+                <div class="suggestions-grid" id="suggestionsGrid">
+                    <!-- Product suggestions will be loaded here -->
+                </div>
+            </div>
+
+
+
+            <!-- Growth Chart -->
+            <div class="growth-chart-section">
+                <h2>📈 Growth Progress</h2>
+                <div class="chart-container">
+                    <div class="chart-placeholder">
+                        <i class="fas fa-chart-line"></i>
+                        <p>Growth chart will be displayed here</p>
+                        <small>Track your baby's growth over time</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Measurement Button -->
+            <button class="add-measurement-btn" onclick="addMeasurement()">
+                <i class="fas fa-plus"></i>
+                Add New Measurement
+            </button>
+        </div>
+    </section>
+
+    <!-- Add Measurement Modal -->
+    <div id="measurementModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeMeasurementModal()">&times;</span>
+            <h2>📏 Add New Measurement</h2>
+            <form id="measurementForm">
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" id="measurementDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Height (cm)</label>
+                    <input type="number" id="heightInput" step="0.1" placeholder="50.0">
+                </div>
+                <div class="form-group">
+                    <label>Weight (kg)</label>
+                    <input type="number" id="weightInput" step="0.1" placeholder="3.2">
+                </div>
+                <div class="form-group">
+                    <label>Head Circumference (cm)</label>
+                    <input type="number" id="headInput" step="0.1" placeholder="35.0">
+                </div>
+                <button type="submit" class="save-btn">Save Measurement</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Baby Info Modal -->
+    <div id="babyInfoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeBabyInfoModal()">&times;</span>
+            <h2>👶 Baby Information</h2>
+            <form id="babyInfoForm">
+                <div class="form-group">
+                    <label>Baby's Name</label>
+                    <input type="text" id="babyNameInput" placeholder="Your Little One">
+                </div>
+                <div class="form-group">
+                    <label>Birth Date</label>
+                    <input type="date" id="birthDateInput" required>
+                </div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select id="genderInput">
+                        <option value="">Select Gender</option>
+                        <option value="boy">Boy</option>
+                        <option value="girl">Girl</option>
+                    </select>
+                </div>
+                <button type="submit" class="save-btn">Save Information</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav-premium">
+        <a href="index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="shop.html" class="nav-item">
+            <i class="fas fa-store"></i>
+            <span>Shop</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <i class="fas fa-box"></i>
+            <span>Orders</span>
+        </a>
+        <a href="#" class="nav-item" onclick="toggleMomTools(event)">
+            <i class="fas fa-heart"></i>
+            <span>Mom Tools</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <script src="growth.js"></script>
+</body>
+</html>

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PureParent - Premium Baby Products</title>
+    <link rel="stylesheet" href="premium-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        function performSearch2() {
+            const query = document.getElementById('searchInput2').value.trim();
+            if (query) {
+                window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
+            }
+        }
+    </script>
+</head>
+<body>
+    <!-- Premium Header -->
+    <header class="premium-header">
+        <nav class="main-nav">
+            <div class="container">
+                <div class="nav-left">
+                    <div class="logo-premium">
+                        <img src="img/logo2.png" alt="PureParent">
+                        <div class="logo-text">
+                            <h1>PureParent</h1>
+                            <span>Premium Baby Care</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="nav-center">
+                    <div class="search-premium">
+                        <input type="text" placeholder="Search premium baby products..." id="searchInput">
+                        <button class="search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>-->
+                <div class="nav-right">
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user-circle"></i>
+                    </a>
+                    <a href="wishlist.html" class="nav-link">
+                        <i class="fas fa-heart"></i>
+                    </a>
+                    <a href="cart.html" class="nav-link cart-premium">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Birthday Greeting Banner -->
+    <div id="birthdayBanner" class="birthday-banner" style="display: none;">
+        <div class="birthday-content">
+            <div class="birthday-icon">🎂</div>
+            <div class="birthday-text">
+                <h3 id="birthdayMessage">Happy Birthday!</h3>
+                <p id="birthdaySubtext">Wishing your little one a wonderful day!</p>
+            </div>
+            <button class="birthday-btn" onclick="window.location.href='birthday-pack.html'">
+                🎁 Create Birthday Pack
+            </button>
+        </div>
+    </div>
+
+    <!-- Hero Section 
+    <section class="hero-section">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Premium Baby Products for Your Little One</h1>
+                <p>Trusted by 50,000+ Indian parents • 100% Safe & Certified • Same Day Delivery</p>
+                <button class="hero-btn" onclick="window.location.href='shop.html'">Shop Now</button>
+            </div>
+        </div>
+    </section>-->
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="search-container">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search for baby products..." id="searchInput2">
+                <button class="search-btn" onclick="performSearch2()">Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Carousel -->
+    <section class="carousel-section">
+        <div class="carousel">
+            <div class="carousel-item active">
+                <img src="img/hero1.png" alt="Safe Products">
+            </div>
+            <div class="carousel-item">
+                <img src="img/hero2.png" alt="Fast Delivery">
+            </div>
+            <div class="carousel-item">
+                <img src="img/hero3.png" alt="Special Offers">
+            </div>
+        </div>
+        <div class="carousel-dots">
+            <span class="dot active" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories-section">
+        <div class="container">
+            <h2>Shop by Category</h2>
+            <div class="categories-grid">
+                <div class="category-card" onclick="goToCategory('clothes')">
+                    <div class="category-icon">👕</div>
+                    <h3>Clothes</h3>
+                </div>
+                <div class="category-card" onclick="goToCategory('feeding')">
+                    <div class="category-icon">🍼</div>
+                    <h3>Feeding</h3>
+                </div>
+                <div class="category-card" onclick="goToCategory('diapers')">
+                    <div class="category-icon">🚼</div>
+                    <h3>Diapers</h3>
+                </div>
+                <div class="category-card" onclick="goToCategory('toys')">
+                    <div class="category-icon">🧸</div>
+                    <h3>Toys</h3>
+                </div>
+                <div class="category-card" onclick="goToCategory('gifts')">
+                    <div class="category-icon">🎁</div>
+                    <h3>Gifts</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="quick-actions">
+        <div class="container">
+            <div class="actions-grid">
+                <div class="action-card premium" onclick="window.location.href='ai.html'">
+                    <div class="action-icon ai">🤖</div>
+                    <h3>BabyWise AI</h3>
+                    <p>Get instant expert advice</p>
+                    <span class="action-badge">Free</span>
+                </div>
+                <div class="action-card premium" onclick="window.location.href='expert-booking.html'">
+                    <div class="action-icon expert">👩⚕️</div>
+                    <h3>Expert Consultation</h3>
+                    <p>Video call with pediatricians</p>
+                    <span class="action-badge">₹299</span>
+                </div>
+                <div class="action-card premium" onclick="window.location.href='birthday-pack.html'">
+                    <div class="action-icon birthday">🎂</div>
+                    <h3>Birthday Packs</h3>
+                    <p>Special celebration bundles</p>
+                    <span class="action-badge">Custom</span>
+                </div>
+                <div class="action-card premium" onclick="window.location.href='profile-setup.html'">
+                    <div class="action-icon profile">👶</div>
+                    <h3>Baby Profile</h3>
+                    <p>Personalized recommendations</p>
+                    <span class="action-badge">Setup</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Best Sellers Section -->
+    <section class="bestsellers-section">
+        <div class="container">
+            <h2>⭐ Best Sellers</h2>
+            <div class="products-grid" id="bestSellers">
+                <!-- Products will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Section -->
+    <section class="trust-section">
+        <div class="container">
+            <h2>🏅 Why Trust Us</h2>
+            <div class="trust-icons">
+                <div class="trust-item">
+                    <div class="trust-icon">✅</div>
+                    <h3>Certified Safe</h3>
+                    <p>All products tested & certified</p>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-icon">🌱</div>
+                    <h3>Eco-Friendly</h3>
+                    <p>100% organic materials</p>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-icon">🚚</div>
+                    <h3>Fast Delivery</h3>
+                    <p>Same day delivery available</p>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-icon">👩⚕️</div>
+                    <h3>Doctor Approved</h3>
+                    <p>Recommended by pediatricians</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav-premium">
+        <a href="index.html" class="nav-item active">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="shop.html" class="nav-item">
+            <i class="fas fa-store"></i>
+            <span>Shop</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <i class="fas fa-box"></i>
+            <span>Orders</span>
+        </a>
+        <a href="tools.html" class="nav-item" onclick="toggleMomTools(event)">
+            <i class="fas fa-heart"></i>
+            <span>Mom Tools</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+   
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>📞 Contact Us</h3>
+                <a href="https://wa.me/919876543210" class="whatsapp-link">
+                    <i class="fab fa-whatsapp"></i> WhatsApp Support
+                </a>
+            </div>
+            <div class="footer-section">
+                <h3>📜 Policies</h3>
+                <a href="returns.html">Return & Refund Policy</a>
+                <a href="privacy.html">Privacy Policy</a>
+            </div>
+            <div class="footer-section">
+                <h3>🔒 Safety Promise</h3>
+                <div class="certificates">
+                    <img src="https://via.placeholder.com/60x40/4CAF50/FFFFFF?text=ISO" alt="ISO Certified">
+                    <img src="https://via.placeholder.com/60x40/2196F3/FFFFFF?text=FDA" alt="FDA Approved">
+                    <img src="https://via.placeholder.com/60x40/FF9800/FFFFFF?text=BIS" alt="BIS Certified">
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 PureParent. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="supabase-config.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // AI Advisor function
+        function askAI() {
+            alert('AI Baby Advisor: "For a 6-month baby, start with organic purees and BPA-free bottles. Always consult your pediatrician for personalized advice."');
+        }
+        
+        // Check for birthday
+        function checkBirthday() {
+            const babyProfile = JSON.parse(localStorage.getItem('babyProfile'));
+            if (!babyProfile || !babyProfile.dateOfBirth) return;
+            
+            const today = new Date();
+            const birthDate = new Date(babyProfile.dateOfBirth);
+            
+            // Check if today is birthday (same month and day)
+            if (today.getMonth() === birthDate.getMonth() && today.getDate() === birthDate.getDate()) {
+                const age = today.getFullYear() - birthDate.getFullYear();
+                const banner = document.getElementById('birthdayBanner');
+                const message = document.getElementById('birthdayMessage');
+                const subtext = document.getElementById('birthdaySubtext');
+                
+                message.textContent = `Happy ${age}${getOrdinalSuffix(age)} Birthday, ${babyProfile.name}! 🎉`;
+                subtext.textContent = `Your little one is turning ${age} today! Make it special with our birthday packs.`;
+                banner.style.display = 'block';
+            }
+        }
+        
+        function getOrdinalSuffix(num) {
+            const j = num % 10;
+            const k = num % 100;
+            if (j == 1 && k != 11) return 'st';
+            if (j == 2 && k != 12) return 'nd';
+            if (j == 3 && k != 13) return 'rd';
+            return 'th';
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            checkBirthday();
+            loadBestSellers();
+            updateCartCount();
+            showSlides(slideIndex);
+            startCarousel();
+            
+            // Search functionality
+            document.getElementById('searchInput2').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch2();
+                }
+            });
+        });
+        
+        // Carousel functionality
+        let slideIndex = 1;
+        
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+        
+        function showSlides(n) {
+            const slides = document.getElementsByClassName('carousel-item');
+            const dots = document.getElementsByClassName('dot');
+            
+            if (n > slides.length) { slideIndex = 1; }
+            if (n < 1) { slideIndex = slides.length; }
+            
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].classList.remove('active');
+            }
+            
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].classList.remove('active');
+            }
+            
+            if (slides[slideIndex - 1]) {
+                slides[slideIndex - 1].classList.add('active');
+            }
+            if (dots[slideIndex - 1]) {
+                dots[slideIndex - 1].classList.add('active');
+            }
+        }
+        
+        function startCarousel() {
+            setInterval(() => {
+                slideIndex++;
+                showSlides(slideIndex);
+            }, 4000);
+        }
+        
+        // Navigation functions
+        function goToCategory(category) {
+            localStorage.setItem('selectedCategory', category);
+            window.location.href = 'shop.html';
+        }
+        
+        // Mom Tools functions
+        function toggleMomTools(event) {
+            event.preventDefault();
+            const nav = document.getElementById('momToolsNav');
+            const overlay = document.querySelector('.mom-tools-overlay');
+            nav.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+        
+        function closeMomTools() {
+            const nav = document.getElementById('momToolsNav');
+            const overlay = document.querySelector('.mom-tools-overlay');
+            nav.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+        
+        function showReminders() {
+            alert('📅 Upcoming: DPT Vaccine due in 2 weeks\n🦷 First dental visit recommended\n👁️ Eye checkup scheduled');
+            closeMomTools();
+        }
+        
+        function showFeedingLog() {
+            const time = new Date().toLocaleTimeString('en-IN', {hour: '2-digit', minute: '2-digit'});
+            const type = prompt('Log feeding:\n1. Breast\n2. Bottle\n3. Solid') || '1';
+            const types = {'1': 'Breast', '2': 'Bottle', '3': 'Solid'};
+            alert(`✅ Logged: ${types[type]} feeding at ${time}`);
+            closeMomTools();
+        }
+        
+        function showSleepTracker() {
+            const duration = prompt('Log sleep duration (e.g., 2h 30m):');
+            if (duration) {
+                alert(`😴 Sleep logged: ${duration}`);
+            }
+            closeMomTools();
+        }
+        
+        function showTips() {
+            alert('💡 Today\'s Tip:\n\n"Tummy time for 5 minutes helps strengthen neck muscles. Start with short sessions and gradually increase."');
+            closeMomTools();
+        }
+    </script>
+
+</body>
+</html>

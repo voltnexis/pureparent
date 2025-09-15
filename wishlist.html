@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist - PureParent</title>
+    <link rel="stylesheet" href="premium-styles.css">
+    <link rel="stylesheet" href="additional-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Premium Header -->
+    <header class="premium-header">
+        <nav class="main-nav">
+            <div class="container">
+                <div class="nav-left">
+                    <div class="logo-premium">
+                        <img src="img/logo2.png" alt="PureParent">
+                        <div class="logo-text">
+                            <h1>PureParent</h1>
+                            <span>Premium Baby Care</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user-circle"></i>
+                    </a>
+                    <a href="wishlist.html" class="nav-link active">
+                        <i class="fas fa-heart"></i>
+                    </a>
+                    <a href="cart.html" class="nav-link cart-premium">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Wishlist Section -->
+    <section class="wishlist-section">
+        <div class="wishlist-container">
+            <h1>❤️ Your Wishlist</h1>
+            
+            <div id="emptyWishlist" class="empty-wishlist">
+                <i class="fas fa-heart"></i>
+                <h2>Your wishlist is empty</h2>
+                <p>Save products you love for later!</p>
+                <a href="shop.html" class="continue-shopping">Browse Products</a>
+            </div>
+
+            <div id="wishlistContent" class="wishlist-content" style="display: none;">
+                <div class="products-grid" id="wishlistItems">
+                    <!-- Wishlist items will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav-premium">
+        <a href="index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="shop.html" class="nav-item">
+            <i class="fas fa-store"></i>
+            <span>Shop</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <i class="fas fa-box"></i>
+            <span>Orders</span>
+        </a>
+        <a href="tools.html" class="nav-item" onclick="toggleMomTools(event)">
+            <i class="fas fa-heart"></i>
+            <span>Mom Tools</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <script>
+        let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Sample products for demo
+        const sampleProducts = [
+            {
+                id: 1,
+                name: "Organic Baby Food Jar",
+                price: 299,
+                rating: 4.8,
+                image: "https://via.placeholder.com/250x200/98FB98/FFFFFF?text=Organic+Food",
+                badges: ["🌱 Organic", "✅ Safe"]
+            },
+            {
+                id: 2,
+                name: "BPA-Free Baby Bottle",
+                price: 599,
+                rating: 4.9,
+                image: "https://via.placeholder.com/250x200/FFB6C1/FFFFFF?text=Baby+Bottle",
+                badges: ["🍼 BPA-Free", "👩⚕️ Doctor Approved"]
+            }
+        ];
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add sample items to wishlist for demo
+            if (wishlist.length === 0) {
+                wishlist = sampleProducts;
+                localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            }
+            
+            updateCartCount();
+            displayWishlist();
+        });
+
+        // Display wishlist items
+        function displayWishlist() {
+            const wishlistItems = document.getElementById('wishlistItems');
+            const emptyWishlist = document.getElementById('emptyWishlist');
+            const wishlistContent = document.getElementById('wishlistContent');
+            
+            if (wishlist.length === 0) {
+                emptyWishlist.style.display = 'block';
+                wishlistContent.style.display = 'none';
+                return;
+            }
+            
+            emptyWishlist.style.display = 'none';
+            wishlistContent.style.display = 'block';
+            
+            wishlistItems.innerHTML = wishlist.map(item => `
+                <div class="product-card">
+                    <div class="wishlist-heart" onclick="removeFromWishlist(${item.id})">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <img src="${item.image}" alt="${item.name}" class="product-image">
+                    <div class="product-info">
+                        <div class="product-badges">
+                            ${item.badges.map(badge => `<span class="badge">${badge}</span>`).join('')}
+                        </div>
+                        <div class="product-name">${item.name}</div>
+                        <div class="product-price">₹${item.price}</div>
+                        <div class="product-rating">
+                            ${'⭐'.repeat(Math.floor(item.rating))} ${item.rating}
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart(${item.id})">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Remove from wishlist
+        function removeFromWishlist(productId) {
+            wishlist = wishlist.filter(item => item.id !== productId);
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            displayWishlist();
+            showNotification('Removed from wishlist');
+        }
+
+        // Add to cart
+        function addToCart(productId) {
+            const product = wishlist.find(p => p.id === productId);
+            if (product) {
+                const existingItem = cart.find(item => item.id === productId);
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push({ ...product, quantity: 1 });
+                }
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartCount();
+                showNotification('Added to cart!');
+            }
+        }
+
+        // Update cart count
+        function updateCartCount() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCountElement = document.querySelector('.cart-count');
+            if (cartCountElement) {
+                cartCountElement.textContent = totalItems;
+            }
+        }
+
+        // Notification system
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #4CAF50;
+                color: white;
+                padding: 15px 20px;
+                border-radius: 8px;
+                z-index: 1000;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Pack - PureParent</title>
+    <link rel="stylesheet" href="premium-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Premium Header -->
+    <header class="premium-header">
+        <nav class="main-nav">
+            <div class="container">
+                <div class="nav-left">
+                    <div class="logo-premium">
+                        <img src="img/logo2.png" alt="PureParent">
+                        <div class="logo-text">
+                            <h1>PureParent</h1>
+                            <span>Premium Baby Care</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user-circle"></i>
+                    </a>
+                    <a href="cart.html" class="nav-link cart-premium">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Birthday Pack Creator -->
+    <section class="birthday-pack-section">
+        <div class="container">
+            <div class="pack-header">
+                <h1>🎂 Create Birthday Pack</h1>
+                <p>Make your little one's birthday extra special!</p>
+            </div>
+
+            <!-- Step 1: Birthday Wish Generator -->
+            <div class="pack-step active" id="step1">
+                <div class="step-card">
+                    <div class="step-icon">💌</div>
+                    <h2>AI Birthday Wish</h2>
+                    <p>Let AI create a personalized birthday message</p>
+                    
+                    <div class="wish-preview" id="wishPreview">
+                        <div class="generating">
+                            <div class="loading-dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <p>Generating personalized wish...</p>
+                        </div>
+                    </div>
+                    
+                    <div class="wish-actions" id="wishActions" style="display: none;">
+                        <button onclick="regenerateWish()" class="regenerate-btn">🔄 Generate New</button>
+                        <button onclick="nextStep(2)" class="next-btn">Use This Wish</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Gift Selection -->
+            <div class="pack-step" id="step2">
+                <div class="step-card">
+                    <div class="step-icon">🎁</div>
+                    <h2>Choose Birthday Gifts</h2>
+                    <p>Curated gifts perfect for your baby's age</p>
+                    
+                    <div class="age-filter">
+                        <span class="age-badge" id="ageDisplay">12 months</span>
+                    </div>
+                    
+                    <div class="gifts-grid" id="giftsGrid">
+                        <!-- Gifts will be loaded here -->
+                    </div>
+                    
+                    <div class="selected-gifts">
+                        <h3>Selected Gifts (<span id="selectedCount">0</span>)</h3>
+                        <div id="selectedGifts" class="selected-items">
+                            <!-- Selected gifts will appear here -->
+                        </div>
+                        <div class="gifts-total">
+                            Total: ₹<span id="giftsTotal">0</span>
+                        </div>
+                    </div>
+                    
+                    <button onclick="nextStep(3)" class="next-btn" id="giftsNext" disabled>Continue to Delivery</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Delivery & Services -->
+            <div class="pack-step" id="step3">
+                <div class="step-card">
+                    <div class="step-icon">🚚</div>
+                    <h2>Delivery & Special Services</h2>
+                    
+                    <div class="delivery-options">
+                        <h3>📅 Delivery Date</h3>
+                        <input type="date" id="deliveryDate" class="date-input">
+                        
+                        <h3>📝 Add-on Services</h3>
+                        <div class="services-grid">
+                            <label class="service-option">
+                                <input type="checkbox" value="handwritten" data-price="49">
+                                <div class="service-card">
+                                    <span class="service-icon">✍️</span>
+                                    <span class="service-name">Handwritten Card</span>
+                                    <span class="service-price">+₹49</span>
+                                </div>
+                            </label>
+                            
+                            <label class="service-option">
+                                <input type="checkbox" value="giftwrap" data-price="99">
+                                <div class="service-card">
+                                    <span class="service-icon">🎀</span>
+                                    <span class="service-name">Premium Gift Wrap</span>
+                                    <span class="service-price">+₹99</span>
+                                </div>
+                            </label>
+                            
+                            <label class="service-option">
+                                <input type="checkbox" value="balloons" data-price="149">
+                                <div class="service-card">
+                                    <span class="service-icon">🎈</span>
+                                    <span class="service-name">Birthday Balloons</span>
+                                    <span class="service-price">+₹149</span>
+                                </div>
+                            </label>
+                            
+                            <label class="service-option">
+                                <input type="checkbox" value="cake" data-price="299">
+                                <div class="service-card">
+                                    <span class="service-icon">🧁</span>
+                                    <span class="service-name">Baby-Safe Cake</span>
+                                    <span class="service-price">+₹299</span>
+                                </div>
+                            </label>
+                        </div>
+                        
+                        <div class="custom-message">
+                            <h3>💌 Custom Message (Optional)</h3>
+                            <textarea id="customMessage" placeholder="Add a personal message for the card..." rows="3"></textarea>
+                        </div>
+                    </div>
+                    
+                    <button onclick="nextStep(4)" class="next-btn">Review Birthday Pack</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Review & Checkout -->
+            <div class="pack-step" id="step4">
+                <div class="step-card">
+                    <div class="step-icon">✅</div>
+                    <h2>Review Your Birthday Pack</h2>
+                    
+                    <div class="pack-summary">
+                        <div class="summary-section">
+                            <h3>🎂 Birthday Child</h3>
+                            <div class="child-info">
+                                <span id="childName">Baby Name</span>
+                                <span id="childAge">Turning 1</span>
+                            </div>
+                        </div>
+                        
+                        <div class="summary-section">
+                            <h3>💌 Birthday Wish</h3>
+                            <div class="wish-card" id="finalWish">
+                                <!-- Birthday wish will be displayed here -->
+                            </div>
+                        </div>
+                        
+                        <div class="summary-section">
+                            <h3>🎁 Selected Gifts</h3>
+                            <div id="finalGifts" class="final-gifts">
+                                <!-- Selected gifts will be listed here -->
+                            </div>
+                        </div>
+                        
+                        <div class="summary-section">
+                            <h3>🚚 Delivery Details</h3>
+                            <div class="delivery-details">
+                                <div class="detail-item">
+                                    <span>📅 Delivery Date:</span>
+                                    <span id="finalDeliveryDate">Date</span>
+                                </div>
+                                <div id="finalServices" class="services-list">
+                                    <!-- Selected services will be listed here -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="pack-total">
+                            <div class="total-breakdown">
+                                <div class="total-item">
+                                    <span>Gifts:</span>
+                                    <span>₹<span id="finalGiftsTotal">0</span></span>
+                                </div>
+                                <div class="total-item">
+                                    <span>Services:</span>
+                                    <span>₹<span id="finalServicesTotal">0</span></span>
+                                </div>
+                                <div class="total-item grand-total">
+                                    <span>Total:</span>
+                                    <span>₹<span id="grandTotal">0</span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="createBirthdayPack()" class="create-pack-btn">
+                        🎉 Create Birthday Pack
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="success-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="success-content">
+                <div class="success-icon">🎉</div>
+                <h2>Birthday Pack Created!</h2>
+                <p>Your special birthday pack has been created successfully.</p>
+                
+                <div class="pack-id">
+                    <strong>Pack ID: <span id="packId">BP123456</span></strong>
+                </div>
+                
+                <div class="success-actions">
+                    <button onclick="downloadECard()" class="download-btn">📱 Download E-Card</button>
+                    <button onclick="goToOrders()" class="orders-btn">📦 View Orders</button>
+                    <button onclick="goToDashboard()" class="dashboard-btn">🏠 Go Home</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav-premium">
+        <a href="index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="shop.html" class="nav-item">
+            <i class="fas fa-store"></i>
+            <span>Shop</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <i class="fas fa-box"></i>
+            <span>Orders</span>
+        </a>
+        <a href="tools.html" class="nav-item">
+            <i class="fas fa-heart"></i>
+            <span>Mom Tools</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <script src="birthday-pack.js"></script>
+    <style>
+        .birthday-pack-section {
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            min-height: calc(100vh - 160px);
+        }
+
+        .pack-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .pack-header h1 {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin: 0 0 12px 0;
+        }
+
+        .pack-header p {
+            color: var(--gray-600);
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .pack-step {
+            display: none;
+            margin-bottom: 40px;
+        }
+
+        .pack-step.active {
+            display: block;
+        }
+
+        .step-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-200);
+        }
+
+        .step-icon {
+            font-size: 48px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .step-card h2 {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--gray-900);
+            text-align: center;
+            margin: 0 0 12px 0;
+        }
+
+        .step-card > p {
+            text-align: center;
+            color: var(--gray-600);
+            margin: 0 0 32px 0;
+        }
+
+        .wish-preview {
+            background: var(--gray-50);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 24px 0;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .generating {
+            text-align: center;
+        }
+
+        .loading-dots {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .loading-dots span {
+            width: 8px;
+            height: 8px;
+            background: var(--primary-blue);
+            border-radius: 50%;
+            animation: bounce 1.4s ease-in-out infinite both;
+        }
+
+        .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        .wish-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 24px;
+        }
+
+        .regenerate-btn, .next-btn, .create-pack-btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 16px;
+        }
+
+        .regenerate-btn {
+            background: var(--gray-100);
+            color: var(--gray-700);
+        }
+
+        .regenerate-btn:hover {
+            background: var(--gray-200);
+        }
+
+        .next-btn, .create-pack-btn {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .next-btn:hover, .create-pack-btn:hover {
+            background: var(--primary-blue-dark);
+            transform: translateY(-2px);
+        }
+
+        .next-btn:disabled {
+            background: var(--gray-300);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .age-filter {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .age-badge {
+            background: var(--primary-blue);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .gifts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .selected-gifts {
+            background: var(--gray-50);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .selected-gifts h3 {
+            margin: 0 0 16px 0;
+            color: var(--gray-900);
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .gifts-total {
+            text-align: right;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-top: 16px;
+        }
+
+        .delivery-options {
+            margin-bottom: 32px;
+        }
+
+        .delivery-options h3 {
+            color: var(--gray-900);
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0 0 16px 0;
+        }
+
+        .date-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 16px;
+            margin-bottom: 24px;
+        }
+
+        .date-input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .service-option {
+            cursor: pointer;
+        }
+
+        .service-option input {
+            display: none;
+        }
+
+        .service-card {
+            background: white;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .service-option input:checked + .service-card {
+            border-color: var(--primary-blue);
+            background: var(--primary-blue-light);
+        }
+
+        .service-card:hover {
+            border-color: var(--primary-blue);
+        }
+
+        .service-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .service-name {
+            font-weight: 600;
+            color: var(--gray-900);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .service-price {
+            color: var(--primary-blue);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .custom-message textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 16px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .custom-message textarea:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+        }
+
+        .pack-summary {
+            margin-bottom: 32px;
+        }
+
+        .summary-section {
+            background: var(--gray-50);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .summary-section h3 {
+            margin: 0 0 16px 0;
+            color: var(--gray-900);
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .child-info {
+            display: flex;
+            gap: 16px;
+            font-size: 16px;
+            color: var(--gray-700);
+        }
+
+        .wish-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid var(--primary-blue);
+            font-style: italic;
+            color: var(--gray-700);
+        }
+
+        .delivery-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            color: var(--gray-700);
+        }
+
+        .pack-total {
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .total-breakdown {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .total-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 16px;
+        }
+
+        .grand-total {
+            border-top: 1px solid rgba(255,255,255,0.3);
+            padding-top: 12px;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .success-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .success-modal .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .success-icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+        }
+
+        .success-content h2 {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin: 0 0 12px 0;
+        }
+
+        .success-content p {
+            color: var(--gray-600);
+            margin: 0 0 24px 0;
+        }
+
+        .pack-id {
+            background: var(--gray-50);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            font-family: monospace;
+        }
+
+        .success-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .download-btn, .orders-btn, .dashboard-btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 16px;
+        }
+
+        .download-btn {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .orders-btn {
+            background: var(--secondary-purple);
+            color: white;
+        }
+
+        .dashboard-btn {
+            background: var(--gray-100);
+            color: var(--gray-700);
+        }
+
+        .download-btn:hover, .orders-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .dashboard-btn:hover {
+            background: var(--gray-200);
+        }
+
+        @media (max-width: 768px) {
+            .birthday-pack-section {
+                padding: 20px 16px;
+            }
+
+            .step-card {
+                padding: 24px 20px;
+            }
+
+            .pack-header h1 {
+                font-size: 24px;
+            }
+
+            .gifts-grid, .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .wish-actions {
+                flex-direction: column;
+            }
+
+            .success-modal .modal-content {
+                padding: 24px 20px;
+            }
+        }
+    </style>
+</body>
+</html>

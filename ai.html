@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BabyWise AI - PureParent</title>
+    <link rel="stylesheet" href="premium-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Premium Header -->
+    <header class="premium-header">
+        <nav class="main-nav">
+            <div class="container">
+                <div class="nav-left">
+                    <div class="logo-premium">
+                        <img src="img/logo2.png" alt="PureParent">
+                        <div class="logo-text">
+                            <h1>PureParent</h1>
+                            <span>Premium Baby Care</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <div class="language-selector">
+                        <button class="language-btn" onclick="toggleLanguages()">
+                            <i class="fas fa-globe"></i>
+                            <span id="currentLang">English</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="language-dropdown" id="languageDropdown">
+                            <div class="language-option" onclick="changeLanguage('en', 'English')">🇺🇸 English</div>
+                            <div class="language-option" onclick="changeLanguage('hi', 'हिंदी')">🇮🇳 हिंदी</div>
+                            <div class="language-option" onclick="changeLanguage('ta', 'தமிழ்')">🇮🇳 தமிழ்</div>
+                            <div class="language-option" onclick="changeLanguage('te', 'తెలుగు')">🇮🇳 తెలుగు</div>
+                            <div class="language-option" onclick="changeLanguage('kn', 'ಕನ್ನಡ')">🇮🇳 ಕನ್ನಡ</div>
+                            <div class="language-option" onclick="changeLanguage('ml', 'മലയാളം')">🇮🇳 മലയാളം</div>
+                            <div class="language-option" onclick="changeLanguage('bn', 'বাংলা')">🇮🇳 বাংলা</div>
+                            <div class="language-option" onclick="changeLanguage('gu', 'ગુજરાતી')">🇮🇳 ગુજરાતી</div>
+                            <div class="language-option" onclick="changeLanguage('mr', 'मराठी')">🇮🇳 मराठी</div>
+                            <div class="language-option" onclick="changeLanguage('pa', 'ਪੰਜਾਬੀ')">🇮🇳 ਪੰਜਾਬੀ</div>
+                        </div>
+                    </div>
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user-circle"></i>
+                    </a>
+                    <a href="cart.html" class="nav-link cart-premium">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- AI Chat Section -->
+    <div class="ai-chat-container">
+        <!-- Chat Header -->
+        <div class="chat-header">
+            <div class="ai-avatar">
+                <i class="fas fa-robot"></i>
+            </div>
+            <div class="ai-info">
+                <h2 id="aiName">BabyWise AI</h2>
+                <p id="aiStatus">Online • Ready to help</p>
+            </div>
+            <button class="clear-chat-btn" onclick="clearChat()">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+
+        <!-- Chat Messages -->
+        <div class="chat-messages" id="chatMessages">
+            <!-- Messages will be loaded here -->
+        </div>
+
+        <!-- Chat Input -->
+        <div class="chat-input-container">
+            <div class="chat-input">
+                <input type="text" id="messageInput" placeholder="Ask me anything about baby care..." onkeypress="handleKeyPress(event)">
+                <button class="send-btn" onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+            <div class="quick-questions">
+                <button class="quick-btn" onclick="askQuickQuestion('feeding')">🍼 Feeding Tips</button>
+                <button class="quick-btn" onclick="askQuickQuestion('sleep')">😴 Sleep Help</button>
+                <button class="quick-btn" onclick="askQuickQuestion('development')">👶 Development</button>
+                <button class="quick-btn" onclick="askQuickQuestion('health')">🏥 Health</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav-premium">
+        <a href="index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="shop.html" class="nav-item">
+            <i class="fas fa-store"></i>
+            <span>Shop</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <i class="fas fa-box"></i>
+            <span>Orders</span>
+        </a>
+        <a href="tools.html" class="nav-item">
+            <i class="fas fa-heart"></i>
+            <span>Mom Tools</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <script>
+        let currentLanguage = 'en';
+        let chatHistory = JSON.parse(localStorage.getItem('aiChatHistory')) || [];
+
+        const translations = {
+            en: {
+                aiName: 'BabyWise AI',
+                aiStatus: 'Online • Ready to help',
+                placeholder: 'Ask me anything about baby care...',
+                welcomeMessage: 'Hi! I am here to help! Ask me anything about baby care, feeding, sleep, development, or health.',
+                feeding: 'Can you give me feeding tips for my baby?',
+                sleep: 'How can I help my baby sleep better?',
+                development: 'What should I expect for my baby\'s development?',
+                health: 'What are important health tips for babies?'
+            },
+            hi: {
+                aiName: 'बेबीवाइज़ AI',
+                aiStatus: 'ऑनलाइन • मदद के लिए तैयार',
+                placeholder: 'बच्चे की देखभाल के बारे में कुछ भी पूछें...',
+                welcomeMessage: 'नमस्ते! मैं यहाँ आपकी मदद के लिए हूँ! बच्चे की देखभाल, खिलाना, सोना, विकास या स्वास्थ्य के बारे में कुछ भी पूछें।',
+                feeding: 'क्या आप मेरे बच्चे के लिए खिलाने की सलाह दे सकते हैं?',
+                sleep: 'मैं अपने बच्चे को बेहतर नींद में कैसे मदद कर सकता हूँ?',
+                development: 'मुझे अपने बच्चे के विकास से क्या उम्मीद करनी चाहिए?',
+                health: 'बच्चों के लिए महत्वपूर्ण स्वास्थ्य सुझाव क्या हैं?'
+            },
+            ta: {
+                aiName: 'பேபிவைஸ் AI',
+                aiStatus: 'ஆன்லைன் • உதவ தயார்',
+                placeholder: 'குழந்தை பராமரிப்பு பற்றி எதையும் கேளுங்கள்...',
+                welcomeMessage: 'வணக்கம்! நான் உங்களுக்கு உதவ இங்கே இருக்கிறேன்! குழந்தை பராமரிப்பு, உணவு, தூக்கம், வளர்ச்சி அல்லது ஆரோக்கியம் பற்றி எதையும் கேளுங்கள்.',
+                feeding: 'என் குழந்தைக்கு உணவு கொடுக்கும் குறிப்புகளை தர முடியுமா?',
+                sleep: 'என் குழந்தை நன்றாக தூங்க எப்படி உதவ முடியும்?',
+                development: 'என் குழந்தையின் வளர்ச்சியில் நான் என்ன எதிர்பார்க்க வேண்டும்?',
+                health: 'குழந்தைகளுக்கான முக்கியமான ஆரோக்கிய குறிப்புகள் என்ன?'
+            },
+            te: {
+                aiName: 'బేబీవైజ్ AI',
+                aiStatus: 'ఆన్లైన్ • సహాయానికి సిద్ధం',
+                placeholder: 'శిశు సంరక్షణ గురించి ఏదైనా అడగండి...',
+                welcomeMessage: 'నమస్కారం! నేను మీకు సహాయం చేయడానికి ఇక్కడ ఉన్నాను! శిశు సంరక్షణ, ఆహారం, నిద్ర, అభివృద్ధి లేదా ఆరోగ్యం గురించి ఏదైనా అడగండి.',
+                feeding: 'నా బిడ్డకు ఆహార చిట్కాలు ఇవ్వగలరా?',
+                sleep: 'నా బిడ్డ బాగా నిద్రపోవడానికి ఎలా సహాయపడగలను?',
+                development: 'నా బిడ్డ అభివృద్ధిలో నేను ఏమి ఆశించాలి?',
+                health: 'పిల్లలకు ముఖ్యమైన ఆరోగ్య చిట్కాలు ఏమిటి?'
+            },
+            kn: {
+                aiName: 'ಬೇಬಿವೈಸ್ AI',
+                aiStatus: 'ಆನ್ಲೈನ್ • ಸಹಾಯಕ್ಕೆ ಸಿದ್ಧ',
+                placeholder: 'ಮಗುವಿನ ಆರೈಕೆಯ ಬಗ್ಗೆ ಏನನ್ನಾದರೂ ಕೇಳಿ...',
+                welcomeMessage: 'ನಮಸ್ಕಾರ! ನಾನು ನಿಮಗೆ ಸಹಾಯ ಮಾಡಲು ಇಲ್ಲಿದ್ದೇನೆ! ಮಗುವಿನ ಆರೈಕೆ, ಆಹಾರ, ನಿದ್ರೆ, ಬೆಳವಣಿಗೆ ಅಥವಾ ಆರೋಗ್ಯದ ಬಗ್ಗೆ ಏನನ್ನಾದರೂ ಕೇಳಿ.',
+                feeding: 'ನನ್ನ ಮಗುವಿಗೆ ಆಹಾರ ಸಲಹೆಗಳನ್ನು ನೀಡಬಹುದೇ?',
+                sleep: 'ನನ್ನ ಮಗು ಚೆನ್ನಾಗಿ ನಿದ್ರಿಸಲು ಹೇಗೆ ಸಹಾಯ ಮಾಡಬಹುದು?',
+                development: 'ನನ್ನ ಮಗುವಿನ ಬೆಳವಣಿಗೆಯಲ್ಲಿ ನಾನು ಏನನ್ನು ನಿರೀಕ್ಷಿಸಬೇಕು?',
+                health: 'ಮಕ್ಕಳಿಗೆ ಪ್ರಮುಖ ಆರೋಗ್ಯ ಸಲಹೆಗಳು ಯಾವುವು?'
+            },
+            ml: {
+                aiName: 'ബേബിവൈസ് AI',
+                aiStatus: 'ഓൺലൈൻ • സഹായത്തിന് തയ്യാർ',
+                placeholder: 'കുഞ്ഞിന്റെ പരിചരണത്തെക്കുറിച്ച് എന്തും ചോദിക്കൂ...',
+                welcomeMessage: 'നമസ്കാരം! ഞാൻ നിങ്ങളെ സഹായിക്കാൻ ഇവിടെയുണ്ട്! കുഞ്ഞിന്റെ പരിചരണം, ഭക്ഷണം, ഉറക്കം, വികസനം അല്ലെങ്കിൽ ആരോഗ്യത്തെക്കുറിച്ച് എന്തും ചോദിക്കൂ.',
+                feeding: 'എന്റെ കുഞ്ഞിന് ഭക്ഷണ നുറുങ്ങുകൾ നൽകാമോ?',
+                sleep: 'എന്റെ കുഞ്ഞ് നന്നായി ഉറങ്ങാൻ എങ്ങനെ സഹായിക്കാം?',
+                development: 'എന്റെ കുഞ്ഞിന്റെ വികസനത്തിൽ ഞാൻ എന്ത് പ്രതീക്ഷിക്കണം?',
+                health: 'കുട്ടികൾക്കുള്ള പ്രധാന ആരോഗ്യ നുറുങ്ങുകൾ എന്തൊക്കെയാണ്?'
+            },
+            bn: {
+                aiName: 'বেবিওয়াইজ AI',
+                aiStatus: 'অনলাইন • সাহায্যের জন্য প্রস্তুত',
+                placeholder: 'শিশুর যত্ন সম্পর্কে যেকোনো কিছু জিজ্ঞাসা করুন...',
+                welcomeMessage: 'নমস্কার! আমি আপনাকে সাহায্য করতে এখানে আছি! শিশুর যত্ন, খাওয়ানো, ঘুম, বিকাশ বা আরোগ্য সম্পর্কে যেকোনো কিছু জিজ্ঞাসা করুন।',
+                feeding: 'আমার শিশুর জন্য খাওয়ানোর টিপস দিতে পারেন?',
+                sleep: 'আমার শিশু ভালো ঘুমাতে কীভাবে সাহায্য করতে পারি?',
+                development: 'আমার শিশুর বিকাশে আমি কী আশা করব?',
+                health: 'শিশুদের জন্য গুরুত্বপূর্ণ স্বাস্থ্য টিপস কী?'
+            },
+            gu: {
+                aiName: 'બેબીવાઇઝ AI',
+                aiStatus: 'ઓનલાઇન • મદદ માટે તૈયાર',
+                placeholder: 'બાળકની સંભાળ વિશે કંઈપણ પૂછો...',
+                welcomeMessage: 'નમસ્તે! હું તમારી મદદ કરવા અહીં છું! બાળકની સંભાળ, ખવડાવવું, ઊંઘ, વિકાસ અથવા આરોગ્ય વિશે કંઈપણ પૂછો.',
+                feeding: 'મારા બાળક માટે ખવડાવવાની ટિપ્સ આપી શકો છો?',
+                sleep: 'મારું બાળક સારી રીતે ઊંઘે તે માટે હું કેવી રીતે મદદ કરી શકું?',
+                development: 'મારા બાળકના વિકાસમાં મારે શું અપેક્ષા રાખવી જોઈએ?',
+                health: 'બાળકો માટે મહત્વપૂર્ણ આરોગ્ય ટિપ્સ શું છે?'
+            },
+            mr: {
+                aiName: 'बेबीवाइज AI',
+                aiStatus: 'ऑनलाइन • मदतीसाठी तयार',
+                placeholder: 'बाळाच्या काळजीबद्दल काहीही विचारा...',
+                welcomeMessage: 'नमस्कार! मी तुमची मदत करण्यासाठी येथे आहे! बाळाची काळजी, आहार, झोप, विकास किंवा आरोग्य याबद्दल काहीही विचारा.',
+                feeding: 'माझ्या बाळासाठी आहाराच्या टिप्स देऊ शकता का?',
+                sleep: 'माझे बाळ चांगले झोपावे यासाठी मी कशी मदत करू शकते?',
+                development: 'माझ्या बाळाच्या विकासात मी काय अपेक्षा ठेवावी?',
+                health: 'मुलांसाठी महत्त्वाच्या आरोग्य टिप्स काय आहेत?'
+            },
+            pa: {
+                aiName: 'ਬੇਬੀਵਾਇਜ਼ AI',
+                aiStatus: 'ਔਨਲਾਈਨ • ਮਦਦ ਲਈ ਤਿਆਰ',
+                placeholder: 'ਬੱਚੇ ਦੀ ਦੇਖਭਾਲ ਬਾਰੇ ਕੁਝ ਵੀ ਪੁੱਛੋ...',
+                welcomeMessage: 'ਸਤ ਸ੍ਰੀ ਅਕਾਲ! ਮੈਂ ਤੁਹਾਡੀ ਮਦਦ ਕਰਨ ਲਈ ਇੱਥੇ ਹਾਂ! ਬੱਚੇ ਦੀ ਦੇਖਭਾਲ, ਖੁਰਾਕ, ਨੀਂਦ, ਵਿਕਾਸ ਜਾਂ ਸਿਹਤ ਬਾਰੇ ਕੁਝ ਵੀ ਪੁੱਛੋ।',
+                feeding: 'ਕੀ ਤੁਸੀਂ ਮੇਰੇ ਬੱਚੇ ਲਈ ਖੁਰਾਕ ਦੇ ਸੁਝਾਅ ਦੇ ਸਕਦੇ ਹੋ?',
+                sleep: 'ਮੈਂ ਆਪਣੇ ਬੱਚੇ ਨੂੰ ਬਿਹਤਰ ਸੌਣ ਵਿੱਚ ਕਿਵੇਂ ਮਦਦ ਕਰ ਸਕਦਾ ਹਾਂ?',
+                development: 'ਮੈਨੂੰ ਆਪਣੇ ਬੱਚੇ ਦੇ ਵਿਕਾਸ ਤੋਂ ਕੀ ਉਮੀਦ ਰੱਖਣੀ ਚਾਹੀਦੀ ਹੈ?',
+                health: 'ਬੱਚਿਆਂ ਲਈ ਮਹੱਤਵਪੂਰਨ ਸਿਹਤ ਸੁਝਾਅ ਕੀ ਹਨ?'
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadChatHistory();
+            updateCartCount();
+            
+            // Show welcome message if no chat history
+            if (chatHistory.length === 0) {
+                showWelcomeMessage();
+            }
+        });
+
+        function loadChatHistory() {
+            const messagesContainer = document.getElementById('chatMessages');
+            messagesContainer.innerHTML = '';
+            
+            chatHistory.forEach(message => {
+                addMessageToChat(message.text, message.isUser, false);
+            });
+            
+            scrollToBottom();
+        }
+
+        function showWelcomeMessage() {
+            const welcomeText = translations[currentLanguage].welcomeMessage;
+            addMessageToChat(welcomeText, false, true);
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                addMessageToChat(message, true, true);
+                input.value = '';
+                
+                // Simulate AI response
+                setTimeout(() => {
+                    const response = generateAIResponse(message);
+                    addMessageToChat(response, false, true);
+                }, 1000);
+            }
+        }
+
+        function addMessageToChat(text, isUser, saveToHistory = false) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'ai-message'}`;
+            
+            messageDiv.innerHTML = `
+                <div class="message-content">
+                    ${!isUser ? '<div class="message-avatar"><i class="fas fa-robot"></i></div>' : ''}
+                    <div class="message-text">${text}</div>
+                    <div class="message-time">${new Date().toLocaleTimeString('en-IN', {hour: '2-digit', minute: '2-digit'})}</div>
+                </div>
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            scrollToBottom();
+            
+            if (saveToHistory) {
+                chatHistory.push({ text, isUser, timestamp: Date.now() });
+                localStorage.setItem('aiChatHistory', JSON.stringify(chatHistory));
+            }
+        }
+
+        function generateAIResponse(message) {
+            const responses = {
+                en: {
+                    feeding: "For feeding, remember: 🍼 Breastfeed every 2-3 hours for newborns. Start solids at 6 months with iron-rich foods. Always burp after feeding. Watch for hunger cues like rooting or sucking motions.",
+                    sleep: "For better sleep: 😴 Create a bedtime routine. Keep room dark and cool. Newborns sleep 14-17 hours daily. Try swaddling for comfort. Put baby on back to sleep for safety.",
+                    development: "Development milestones: 👶 2 months: smiles, follows objects. 4 months: holds head up. 6 months: sits with support. 9 months: crawls. 12 months: first steps. Every baby is unique!",
+                    health: "Health tips: 🏥 Regular checkups are important. Watch for fever above 100.4°F. Keep baby hydrated. Wash hands frequently. Trust your instincts - call doctor if concerned.",
+                    default: "I understand you're asking about baby care. Here are some general tips: Always consult your pediatrician for specific concerns. Keep baby's environment clean and safe. Follow feeding and sleep schedules. Watch for developmental milestones. Remember, every baby is unique and develops at their own pace!"
+                },
+                hi: {
+                    feeding: "खिलाने के लिए याद रखें: 🍼 नवजात शिशुओं को हर 2-3 घंटे में स्तनपान कराएं। 6 महीने में आयरन युक्त खाद्य पदार्थों के साथ ठोस आहार शुरू करें। खिलाने के बाद हमेशा डकार दिलाएं।",
+                    sleep: "बेहतर नींद के लिए: 😴 सोने का समय निर्धारित करें। कमरे को अंधेरा और ठंडा रखें। नवजात शिशु दैनिक 14-17 घंटे सोते हैं। आराम के लिए कपड़े में लपेटें।",
+                    development: "विकास के मील के पत्थर: 👶 2 महीने: मुस्कराना, वस्तुओं का पीछा करना। 4 महीने: सिर उठाना। 6 महीने: सहारे से बैठना। 9 महीने: रेंगना। 12 महीने: पहले कदम।",
+                    health: "स्वास्थ्य सुझाव: 🏥 नियमित जांच महत्वपूर्ण है। 100.4°F से ऊपर बुखार पर ध्यान दें। बच्चे को हाइड्रेटेड रखें। हाथ बार-बार धोएं।",
+                    default: "मैं समझता हूं कि आप बच्चे की देखभाल के बारे में पूछ रहे हैं। यहां कुछ सामान्य सुझाव हैं: विशिष्ट चिंताओं के लिए हमेशा अपने बाल रोग विशेषज्ञ से सलाह लें।"
+                },
+                ta: {
+                    feeding: "உணவு கொடுப்பதற்கு நினைவில் கொள்ளுங்கள்: 🍼 புதிதாகப் பிறந்த குழந்தைகளுக்கு ஒவ்வொரு 2-3 மணி நேரத்திற்கும் தாய்ப்பால் கொடுங்கள். 6 மாதங்களில் இரும்புச்சத்து நிறைந்த உணவுகளுடன் திட உணவைத் தொடங்குங்கள்.",
+                    sleep: "சிறந்த தூக்கத்திற்கு: 😴 படுக்கை நேர வழக்கத்தை உருவாக்குங்கள். அறையை இருட்டாகவும் குளிராகவும் வைத்திருங்கள். புதிதாகப் பிறந்த குழந்தைகள் தினமும் 14-17 மணி நேரம் தூங்குகின்றன.",
+                    development: "வளர்ச்சி மைல்கற்கள்: 👶 2 மாதங்கள்: புன்னகை, பொருட்களைப் பின்தொடர்தல். 4 மாதங்கள்: தலையை உயர்த்துதல். 6 மாதங்கள்: ஆதரவுடன் உட்காருதல். 9 மாதங்கள்: ஊர்ந்து செல்லுதல்.",
+                    health: "ஆரோக்கிய குறிப்புகள்: 🏥 வழக்கமான பரிசோதனைகள் முக்கியம். 100.4°F க்கு மேல் காய்ச்சலைக் கவனியுங்கள். குழந்தையை நீரேற்றமாக வைத்திருங்கள்.",
+                    default: "நீங்கள் குழந்தை பராமரிப்பு பற்றி கேட்கிறீர்கள் என்று புரிகிறது. இங்கே சில பொதுவான குறிப்புகள்: குறிப்பிட்ட கவலைகளுக்கு எப்போதும் உங்கள் குழந்தை மருத்துவரை அணுகுங்கள்."
+                }
+            };
+            
+            const langResponses = responses[currentLanguage] || responses.en;
+            const lowerMessage = message.toLowerCase();
+            
+            if (lowerMessage.includes('feed') || lowerMessage.includes('खिला') || lowerMessage.includes('உணவு') || lowerMessage.includes('ఆహార') || lowerMessage.includes('ಆಹಾರ') || lowerMessage.includes('ഭക്ഷണ') || lowerMessage.includes('খাওয়ান') || lowerMessage.includes('ખવડાવ') || lowerMessage.includes('आहार') || lowerMessage.includes('ਖੁਰਾਕ')) {
+                return langResponses.feeding;
+            } else if (lowerMessage.includes('sleep') || lowerMessage.includes('सो') || lowerMessage.includes('தூக்க') || lowerMessage.includes('నిద్ర') || lowerMessage.includes('ನಿದ್ರೆ') || lowerMessage.includes('ഉറക്ക') || lowerMessage.includes('ঘুম') || lowerMessage.includes('ઊંઘ') || lowerMessage.includes('झोप') || lowerMessage.includes('ਨੀਂਦ')) {
+                return langResponses.sleep;
+            } else if (lowerMessage.includes('develop') || lowerMessage.includes('विकास') || lowerMessage.includes('வளர்ச்சி') || lowerMessage.includes('అభివృద్ధి') || lowerMessage.includes('ಬೆಳವಣಿಗೆ') || lowerMessage.includes('വികസന') || lowerMessage.includes('বিকাশ') || lowerMessage.includes('વિકાસ') || lowerMessage.includes('विकास') || lowerMessage.includes('ਵਿਕਾਸ')) {
+                return langResponses.development;
+            } else if (lowerMessage.includes('health') || lowerMessage.includes('स्वास्थ्य') || lowerMessage.includes('ஆரோக்கிய') || lowerMessage.includes('ఆరోగ్య') || lowerMessage.includes('ಆರೋಗ್ಯ') || lowerMessage.includes('ആരോഗ്യ') || lowerMessage.includes('স্বাস্থ্য') || lowerMessage.includes('આરોગ્ય') || lowerMessage.includes('आरोग्य') || lowerMessage.includes('ਸਿਹਤ')) {
+                return langResponses.health;
+            } else {
+                return langResponses.default;
+            }
+        }
+
+        function askQuickQuestion(type) {
+            const questions = translations[currentLanguage];
+            const question = questions[type];
+            document.getElementById('messageInput').value = question;
+            sendMessage();
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function scrollToBottom() {
+            const messagesContainer = document.getElementById('chatMessages');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function clearChat() {
+            if (confirm('Clear all chat history?')) {
+                chatHistory = [];
+                localStorage.removeItem('aiChatHistory');
+                document.getElementById('chatMessages').innerHTML = '';
+                showWelcomeMessage();
+            }
+        }
+
+        function toggleLanguages() {
+            const dropdown = document.getElementById('languageDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        function changeLanguage(langCode, langName) {
+            currentLanguage = langCode;
+            document.getElementById('currentLang').textContent = langName;
+            document.getElementById('aiName').textContent = translations[langCode].aiName;
+            document.getElementById('aiStatus').textContent = translations[langCode].aiStatus;
+            document.getElementById('messageInput').placeholder = translations[langCode].placeholder;
+            
+            toggleLanguages();
+            
+            // Translate existing messages instead of clearing
+            translateExistingMessages();
+        }
+        
+        function translateExistingMessages() {
+            const messages = document.querySelectorAll('.ai-message .message-text');
+            messages.forEach(messageEl => {
+                const text = messageEl.textContent;
+                const translatedResponse = generateTranslatedResponse(text);
+                if (translatedResponse !== text) {
+                    messageEl.textContent = translatedResponse;
+                }
+            });
+        }
+        
+        function generateTranslatedResponse(originalText) {
+            const responses = {
+                en: {
+                    feeding: "For feeding, remember: 🍼 Breastfeed every 2-3 hours for newborns. Start solids at 6 months with iron-rich foods. Always burp after feeding. Watch for hunger cues like rooting or sucking motions.",
+                    sleep: "For better sleep: 😴 Create a bedtime routine. Keep room dark and cool. Newborns sleep 14-17 hours daily. Try swaddling for comfort. Put baby on back to sleep for safety.",
+                    development: "Development milestones: 👶 2 months: smiles, follows objects. 4 months: holds head up. 6 months: sits with support. 9 months: crawls. 12 months: first steps. Every baby is unique!",
+                    health: "Health tips: 🏥 Regular checkups are important. Watch for fever above 100.4°F. Keep baby hydrated. Wash hands frequently. Trust your instincts - call doctor if concerned.",
+                    welcome: "Hi! I am here to help! Ask me anything about baby care, feeding, sleep, development, or health."
+                },
+                hi: {
+                    feeding: "खिलाने के लिए याद रखें: 🍼 नवजात शिशुओं को हर 2-3 घंटे में स्तनपान कराएं। 6 महीने में आयरन युक्त खाद्य पदार्थों के साथ ठोस आहार शुरू करें। खिलाने के बाद हमेशा डकार दिलाएं।",
+                    sleep: "बेहतर नींद के लिए: 😴 सोने का समय निर्धारित करें। कमरे को अंधेरा और ठंडा रखें। नवजात शिशु दैनिक 14-17 घंटे सोते हैं। आराम के लिए कपड़े में लपेटें।",
+                    development: "विकास के मील के पत्थर: 👶 2 महीने: मुस्कराना, वस्तुओं का पीछा करना। 4 महीने: सिर उठाना। 6 महीने: सहारे से बैठना। 9 महीने: रेंगना। 12 महीने: पहले कदम।",
+                    health: "स्वास्थ्य सुझाव: 🏥 नियमित जांच महत्वपूर्ण है। 100.4°F से ऊपर बुखार पर ध्यान दें। बच्चे को हाइड्रेटेड रखें। हाथ बार-बार धोएं।",
+                    welcome: "नमस्ते! मैं यहाँ आपकी मदद के लिए हूँ! बच्चे की देखभाल, खिलाना, सोना, विकास या स्वास्थ्य के बारे में कुछ भी पूछें।"
+                }
+            };
+            
+            const langResponses = responses[currentLanguage] || responses.en;
+            
+            if (originalText.includes('🍼') || originalText.includes('feeding') || originalText.includes('खिला')) {
+                return langResponses.feeding;
+            } else if (originalText.includes('😴') || originalText.includes('sleep') || originalText.includes('सो')) {
+                return langResponses.sleep;
+            } else if (originalText.includes('👶') || originalText.includes('development') || originalText.includes('विकास')) {
+                return langResponses.development;
+            } else if (originalText.includes('🏥') || originalText.includes('health') || originalText.includes('स्वास्थ्य')) {
+                return langResponses.health;
+            } else if (originalText.includes('help') || originalText.includes('मदद')) {
+                return langResponses.welcome;
+            }
+            
+            return originalText;
+        }
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCountElement = document.querySelector('.cart-count');
+            if (cartCountElement) {
+                cartCountElement.textContent = totalItems;
+            }
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('languageDropdown');
+            const button = document.querySelector('.language-btn');
+            if (!button.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+    </script>
+
+    <style>
+        .ai-chat-container {
+            max-width: 800px;
+            margin: 0 auto;
+            height: calc(100vh - 160px);
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border-radius: 20px 20px 0 0;
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .ai-avatar {
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .ai-info {
+            flex: 1;
+        }
+
+        .ai-info h2 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .ai-info p {
+            margin: 4px 0 0 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .clear-chat-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .clear-chat-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: var(--gray-50);
+        }
+
+        .message {
+            margin-bottom: 16px;
+        }
+
+        .message-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .user-message .message-content {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            background: var(--primary-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .message-text {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 16px;
+            max-width: 70%;
+            box-shadow: var(--shadow-sm);
+            line-height: 1.4;
+        }
+
+        .user-message .message-text {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: var(--gray-500);
+            margin-top: 4px;
+            text-align: center;
+        }
+
+        .chat-input-container {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid var(--gray-200);
+            border-radius: 24px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .chat-input input:focus {
+            border-color: var(--primary-blue);
+        }
+
+        .send-btn {
+            width: 48px;
+            height: 48px;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .send-btn:hover {
+            background: var(--primary-blue-dark);
+            transform: scale(1.05);
+        }
+
+        .quick-questions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .quick-btn {
+            background: var(--gray-100);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quick-btn:hover {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .language-selector {
+            position: relative;
+        }
+
+        .language-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .language-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            min-width: 200px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+        }
+
+        .language-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .language-option {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 14px;
+        }
+
+        .language-option:hover {
+            background: var(--gray-50);
+        }
+
+        .language-option:first-child {
+            border-radius: 12px 12px 0 0;
+        }
+
+        .language-option:last-child {
+            border-radius: 0 0 12px 12px;
+        }
+
+        @media (max-width: 768px) {
+            .ai-chat-container {
+                height: calc(100vh - 140px);
+                border-radius: 0;
+            }
+
+            .message-text {
+                max-width: 85%;
+            }
+
+            .quick-questions {
+                gap: 6px;
+            }
+
+            .quick-btn {
+                font-size: 11px;
+                padding: 6px 10px;
+            }
+        }
+    </style>
+</body>
+</html>

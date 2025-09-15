@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Expert - PureParent</title>
+    <link rel="stylesheet" href="premium-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Premium Header -->
+    <header class="premium-header">
+        <nav class="main-nav">
+            <div class="container">
+                <div class="nav-left">
+                    <div class="logo-premium">
+                        <img src="img/logo2.png" alt="PureParent">
+                        <div class="logo-text">
+                            <h1>PureParent</h1>
+                            <span>Premium Baby Care</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user-circle"></i>
+                    </a>
+                    <a href="cart.html" class="nav-link cart-premium">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Expert Selection -->
+    <section class="expert-selection">
+        <div class="container">
+            <h1>👩⚕️ Choose Your Expert</h1>
+            
+            <div class="experts-grid" id="expertsGrid">
+                <!-- Experts will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="booking-modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeBooking()">&times;</span>
+            
+            <!-- Step 1: Expert Info -->
+            <div class="booking-step active" id="bookingStep1">
+                <div class="expert-info">
+                    <div class="expert-avatar">
+                        <span id="expertInitial">D</span>
+                    </div>
+                    <h2 id="expertName">Dr. Expert</h2>
+                    <p id="expertSpecialty">Pediatrician</p>
+                    <div class="expert-rating">
+                        <span id="expertRating">⭐⭐⭐⭐⭐ 4.9</span>
+                        <span id="expertFee">₹499</span>
+                    </div>
+                </div>
+                
+                <div class="pre-consult-form">
+                    <h3>📋 Pre-Consultation Form</h3>
+                    
+                    <div class="form-group">
+                        <label>Baby's Current Concern</label>
+                        <textarea id="concern" placeholder="Describe your concern..." rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Upload Photos (Optional)</label>
+                        <input type="file" id="photos" multiple accept="image/*">
+                        <small>Upload relevant photos if needed</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Urgency Level</label>
+                        <div class="urgency-options">
+                            <label class="urgency-option">
+                                <input type="radio" name="urgency" value="low">
+                                <span class="urgency-icon">🟢</span>
+                                <span>Routine</span>
+                            </label>
+                            <label class="urgency-option">
+                                <input type="radio" name="urgency" value="medium" checked>
+                                <span class="urgency-icon">🟡</span>
+                                <span>Moderate</span>
+                            </label>
+                            <label class="urgency-option">
+                                <input type="radio" name="urgency" value="high">
+                                <span class="urgency-icon">🔴</span>
+                                <span>Urgent</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <button onclick="nextBookingStep(2)" class="next-btn">Choose Time Slot</button>
+            </div>
+
+            <!-- Step 2: Time Slot Selection -->
+            <div class="booking-step" id="bookingStep2">
+                <h2>📅 Select Time Slot</h2>
+                
+                <div class="date-selector">
+                    <div class="date-options" id="dateOptions">
+                        <!-- Date options will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="time-slots" id="timeSlots">
+                    <!-- Time slots will be loaded here -->
+                </div>
+                
+                <button onclick="nextBookingStep(3)" class="next-btn" id="slotNext" disabled>Proceed to Payment</button>
+            </div>
+
+            <!-- Step 3: Payment -->
+            <div class="booking-step" id="bookingStep3">
+                <h2>💳 Payment</h2>
+                
+                <div class="booking-summary">
+                    <h3>Consultation Summary</h3>
+                    <div class="summary-item">
+                        <span>Expert:</span>
+                        <span id="summaryExpert">Dr. Expert</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Date & Time:</span>
+                        <span id="summaryDateTime">Date & Time</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Duration:</span>
+                        <span>30 minutes</span>
+                    </div>
+                    <div class="summary-item total">
+                        <span>Total:</span>
+                        <span id="summaryTotal">₹499</span>
+                    </div>
+                </div>
+                
+                <div class="payment-methods">
+                    <h3>Payment Method</h3>
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="upi" checked>
+                        <span class="payment-icon">📱</span>
+                        <span>UPI</span>
+                    </label>
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="card">
+                        <span class="payment-icon">💳</span>
+                        <span>Card</span>
+                    </label>
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="wallet">
+                        <span class="payment-icon">👛</span>
+                        <span>Wallet</span>
+                    </label>
+                </div>
+                
+                <button onclick="confirmBooking()" class="confirm-btn">Confirm & Pay</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="success-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="success-content">
+                <div class="success-icon">✅</div>
+                <h2>Booking Confirmed!</h2>
+                <p>Your consultation has been booked successfully.</p>
+                
+                <div class="booking-details">
+                    <div class="detail-item">
+                        <span class="detail-icon">👩⚕️</span>
+                        <span id="confirmedExpert">Dr. Expert</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-icon">📅</span>
+                        <span id="confirmedDateTime">Date & Time</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-icon">🔗</span>
+                        <span>Meeting link sent to your phone</span>
+                    </div>
+                </div>
+                
+                <div class="success-actions">
+                    <button onclick="addToCalendar()" class="calendar-btn">📅 Add to Calendar</button>
+                    <button onclick="goToDashboard()" class="dashboard-btn">Go to Dashboard</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav-premium">
+        <a href="index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="shop.html" class="nav-item">
+            <i class="fas fa-store"></i>
+            <span>Shop</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <i class="fas fa-box"></i>
+            <span>Orders</span>
+        </a>
+        <a href="wishlist.html" class="nav-item">
+            <i class="fas fa-heart"></i>
+            <span>Wishlist</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <script src="expert-booking.js"></script>
+    <style>
+        :root {
+            --primary-blue: #2563EB;
+            --primary-blue-dark: #1d4ed8;
+            --primary-blue-light: #dbeafe;
+            --secondary-purple: #7C3AED;
+            --accent-orange: #F59E0B;
+            --success-green: #10B981;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --gray-900: #111827;
+            --font-display: 'Playfair Display', serif;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        .expert-selection {
+            padding: 40px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            min-height: calc(100vh - 160px);
+        }
+
+        .expert-selection h1 {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--gray-900);
+            text-align: center;
+            margin: 0 0 40px 0;
+        }
+
+        .experts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .booking-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .booking-modal .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--gray-500);
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .close-modal:hover {
+            background: var(--gray-100);
+            color: var(--gray-700);
+        }
+
+        .booking-step {
+            display: none;
+        }
+
+        .booking-step.active {
+            display: block;
+        }
+
+        .expert-info {
+            text-align: center;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .expert-avatar {
+            width: 80px;
+            height: 80px;
+            background: var(--primary-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 700;
+            color: white;
+            margin: 0 auto 16px;
+        }
+
+        .expert-info h2 {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin: 0 0 8px 0;
+        }
+
+        .expert-info p {
+            color: var(--gray-600);
+            margin: 0 0 12px 0;
+        }
+
+        .expert-rating {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            font-size: 14px;
+        }
+
+        .expert-rating span:first-child {
+            color: var(--accent-orange);
+        }
+
+        .expert-rating span:last-child {
+            color: var(--primary-blue);
+            font-weight: 700;
+        }
+
+        .pre-consult-form {
+            margin-bottom: 32px;
+        }
+
+        .pre-consult-form h3 {
+            color: var(--gray-900);
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0 0 20px 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--gray-700);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-group textarea, .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .form-group textarea:focus, .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+        }
+
+        .form-group small {
+            color: var(--gray-500);
+            font-size: 12px;
+            margin-top: 4px;
+            display: block;
+        }
+
+        .urgency-options {
+            display: flex;
+            gap: 12px;
+        }
+
+        .urgency-option {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .urgency-option input {
+            display: none;
+        }
+
+        .urgency-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .urgency-option input:checked + .urgency-option,
+        .urgency-option:has(input:checked) {
+            border-color: var(--primary-blue);
+            background: var(--primary-blue-light);
+        }
+
+        .urgency-icon {
+            font-size: 16px;
+        }
+
+        .date-selector {
+            margin-bottom: 24px;
+        }
+
+        .date-options {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .booking-summary {
+            background: var(--gray-50);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .booking-summary h3 {
+            color: var(--gray-900);
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0 0 16px 0;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            color: var(--gray-700);
+        }
+
+        .summary-item.total {
+            border-top: 1px solid var(--gray-300);
+            padding-top: 12px;
+            margin-top: 12px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-size: 18px;
+        }
+
+        .payment-methods {
+            margin-bottom: 32px;
+        }
+
+        .payment-methods h3 {
+            color: var(--gray-900);
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0 0 16px 0;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .payment-option input {
+            margin: 0;
+        }
+
+        .payment-option:hover {
+            border-color: var(--primary-blue);
+        }
+
+        .payment-option:has(input:checked) {
+            border-color: var(--primary-blue);
+            background: var(--primary-blue-light);
+        }
+
+        .payment-icon {
+            font-size: 20px;
+        }
+
+        .next-btn, .confirm-btn {
+            width: 100%;
+            padding: 16px 24px;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .next-btn:hover, .confirm-btn:hover {
+            background: var(--primary-blue-dark);
+            transform: translateY(-2px);
+        }
+
+        .next-btn:disabled {
+            background: var(--gray-300);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .success-modal .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .success-icon {
+            font-size: 64px;
+            color: var(--success-green);
+            margin-bottom: 24px;
+        }
+
+        .success-content h2 {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin: 0 0 12px 0;
+        }
+
+        .success-content p {
+            color: var(--gray-600);
+            margin: 0 0 24px 0;
+        }
+
+        .booking-details {
+            background: var(--gray-50);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            color: var(--gray-700);
+        }
+
+        .detail-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-icon {
+            font-size: 16px;
+            color: var(--primary-blue);
+        }
+
+        .success-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .calendar-btn, .dashboard-btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 16px;
+        }
+
+        .calendar-btn {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .dashboard-btn {
+            background: var(--gray-100);
+            color: var(--gray-700);
+        }
+
+        .calendar-btn:hover {
+            background: var(--primary-blue-dark);
+            transform: translateY(-2px);
+        }
+
+        .dashboard-btn:hover {
+            background: var(--gray-200);
+        }
+
+        @media (max-width: 768px) {
+            .expert-selection {
+                padding: 20px 16px;
+            }
+
+            .expert-selection h1 {
+                font-size: 24px;
+            }
+
+            .experts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .booking-modal {
+                padding: 16px;
+            }
+
+            .booking-modal .modal-content {
+                padding: 24px 20px;
+            }
+
+            .urgency-options {
+                flex-direction: column;
+            }
+
+            .date-options {
+                justify-content: flex-start;
+            }
+
+            .time-slots {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .success-modal .modal-content {
+                padding: 24px 20px;
+            }
+        }
+    </style>
+</body>
+</html>

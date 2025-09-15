@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place Order - PureParent</title>
+    <link rel="stylesheet" href="premium-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Premium Header -->
+    <header class="premium-header">
+        <nav class="main-nav">
+            <div class="container">
+                <div class="nav-left">
+                    <div class="logo-premium">
+                        <img src="img/logo2.png" alt="PureParent">
+                        <div class="logo-text">
+                            <h1>PureParent</h1>
+                            <span>Premium Baby Care</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user-circle"></i>
+                    </a>
+                    <a href="cart.html" class="nav-link cart-premium">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Order Section -->
+    <section class="order-section">
+        <div class="container">
+            <h1>🛒 Place Your Order</h1>
+            
+            <!-- Order Summary -->
+            <div class="order-summary-card">
+                <h2>Order Summary</h2>
+                <div id="orderItems"></div>
+                <div class="order-total">
+                    <div class="total-row">
+                        <span>Subtotal:</span>
+                        <span id="subtotal">₹0</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Delivery:</span>
+                        <span class="free">FREE</span>
+                    </div>
+                    <div class="total-row final">
+                        <span>Total:</span>
+                        <span id="finalTotal">₹0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delivery Address -->
+            <div class="address-card">
+                <h2>📍 Delivery Address</h2>
+                
+                <!-- Saved Addresses -->
+                <div id="savedAddresses"></div>
+                
+                <!-- New Address Form -->
+                <div id="newAddressForm" style="display: none;">
+                    <form id="addressForm">
+                        <input type="text" id="fullName" placeholder="Full Name" required>
+                        <input type="tel" id="phoneNumber" placeholder="Phone Number (10 digits)" required maxlength="10" pattern="[0-9]{10}">
+                        <input type="tel" id="whatsappNumber" placeholder="WhatsApp Number (10 digits)" maxlength="10" pattern="[0-9]{10}">
+                        <textarea id="completeAddress" placeholder="Complete Address" rows="3" required></textarea>
+                        <input type="text" id="city" placeholder="City" required>
+                        <input type="text" id="state" placeholder="State" required>
+                        <input type="text" id="pincode" placeholder="Pincode (6 digits)" required maxlength="6" pattern="[0-9]{6}">
+                        <div class="address-actions">
+                            <button type="button" onclick="saveAddress()" class="save-address-btn" id="saveBtn">Save Address</button>
+                            <button type="button" onclick="cancelNewAddress()" class="cancel-btn">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <button id="addNewAddressBtn" onclick="showNewAddressForm()" class="add-address-btn">
+                    <i class="fas fa-plus"></i> Add New Address
+                </button>
+            </div>
+
+            <!-- Payment Methods -->
+            <div class="payment-card">
+                <h2>💳 Payment Method</h2>
+                <div class="payment-options">
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="upi" checked>
+                        <div class="payment-info">
+                            <i class="fas fa-mobile-alt"></i>
+                            <div>
+                                <h3>UPI Payment</h3>
+                                <p>Pay using Google Pay, PhonePe, Paytm</p>
+                            </div>
+                        </div>
+                    </label>
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="card">
+                        <div class="payment-info">
+                            <i class="fas fa-credit-card"></i>
+                            <div>
+                                <h3>Credit/Debit Card</h3>
+                                <p>Visa, Mastercard, RuPay</p>
+                            </div>
+                        </div>
+                    </label>
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="cod">
+                        <div class="payment-info">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <div>
+                                <h3>Cash on Delivery</h3>
+                                <p>Pay when you receive</p>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Place Order Button -->
+            <button class="place-order-btn" onclick="proceedToPayment()">
+                <i class="fas fa-lock"></i>
+                Continue to Payment
+            </button>
+        </div>
+    </section>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav-premium">
+        <a href="index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="shop.html" class="nav-item">
+            <i class="fas fa-store"></i>
+            <span>Shop</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <i class="fas fa-box"></i>
+            <span>Orders</span>
+        </a>
+        <a href="tools.html" class="nav-item">
+            <i class="fas fa-heart"></i>
+            <span>Mom Tools</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <script>
+        let orderData = {};
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadOrderData();
+            loadSavedAddresses();
+            updateCartCount();
+        });
+
+        function loadOrderData() {
+            // Get order data from sessionStorage
+            const sessionOrder = sessionStorage.getItem('currentOrder');
+            if (sessionOrder) {
+                orderData = JSON.parse(sessionOrder);
+                displayOrderSummary();
+                return;
+            }
+            
+            // Fallback: Get product from localStorage
+            const selectedProduct = localStorage.getItem('selectedProduct');
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            if (selectedProduct) {
+                // Get actual product data
+                const allProducts = JSON.parse(localStorage.getItem('allProducts')) || [];
+                const product = allProducts.find(p => p.id == selectedProduct) || {
+                    id: selectedProduct,
+                    name: "Premium Baby Product",
+                    price: 999,
+                    image: "img/placeholder.jpg"
+                };
+                
+                orderData = {
+                    items: [{ ...product, quantity: 1 }],
+                    total: product.price
+                };
+            } else if (cart.length > 0) {
+                orderData = {
+                    items: cart,
+                    total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+                };
+            }
+            
+            // Store in sessionStorage
+            sessionStorage.setItem('currentOrder', JSON.stringify(orderData));
+            displayOrderSummary();
+        }
+
+        function displayOrderSummary() {
+            const container = document.getElementById('orderItems');
+            const subtotalEl = document.getElementById('subtotal');
+            const finalTotalEl = document.getElementById('finalTotal');
+            
+            if (!orderData.items || orderData.items.length === 0) {
+                container.innerHTML = '<p>No items to order</p>';
+                return;
+            }
+            
+            container.innerHTML = orderData.items.map(item => `
+                <div class="order-item">
+                    <img src="${item.image || 'img/placeholder.jpg'}" alt="${item.name}">
+                    <div class="item-details">
+                        <h3>${item.name}</h3>
+                        <p>Qty: ${item.quantity}</p>
+                    </div>
+                    <div class="item-price">₹${(item.price * item.quantity).toLocaleString()}</div>
+                </div>
+            `).join('');
+            
+            subtotalEl.textContent = `₹${orderData.total.toLocaleString()}`;
+            finalTotalEl.textContent = `₹${orderData.total.toLocaleString()}`;
+        }
+
+        let selectedAddressId = null;
+        
+        function proceedToPayment() {
+            const selectedPayment = document.querySelector('input[name="payment"]:checked').value;
+            
+            // Check if address is selected
+            if (!selectedAddressId) {
+                alert('Please select a delivery address');
+                return;
+            }
+            
+            // Store order data with payment method and address
+            orderData.paymentMethod = selectedPayment;
+            orderData.selectedAddressId = selectedAddressId;
+            sessionStorage.setItem('currentOrder', JSON.stringify(orderData));
+            
+            // Redirect based on payment method
+            if (selectedPayment === 'upi') {
+                window.location.href = 'upi.html';
+            } else if (selectedPayment === 'card') {
+                window.location.href = 'card.html';
+            } else {
+                window.location.href = 'order_confirmed.html';
+            }
+        }
+        
+        function loadSavedAddresses() {
+            const addresses = JSON.parse(localStorage.getItem('savedAddresses')) || [];
+            const container = document.getElementById('savedAddresses');
+            
+            if (addresses.length === 0) {
+                container.innerHTML = '<p class="no-addresses">No saved addresses. Add your first address below.</p>';
+                showNewAddressForm();
+                return;
+            }
+            
+            container.innerHTML = addresses.map(addr => `
+                <div class="address-card-item ${selectedAddressId === addr.id ? 'selected' : ''}" onclick="selectAddress('${addr.id}')">
+                    <div class="address-content">
+                        <h3>${addr.fullName}</h3>
+                        <p>${addr.completeAddress}</p>
+                        <p>${addr.city}, ${addr.state} - ${addr.pincode}</p>
+                        <p>📞 ${addr.phoneNumber}</p>
+                        ${addr.whatsappNumber ? `<p>💬 ${addr.whatsappNumber}</p>` : ''}
+                    </div>
+                    <div class="address-actions">
+                        <button onclick="event.stopPropagation(); editAddress('${addr.id}')" class="edit-btn">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button onclick="event.stopPropagation(); deleteAddress('${addr.id}')" class="delete-btn">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Auto-select first address if none selected
+            if (!selectedAddressId && addresses.length > 0) {
+                selectAddress(addresses[0].id);
+            }
+        }
+        
+        function selectAddress(addressId) {
+            selectedAddressId = addressId;
+            loadSavedAddresses();
+        }
+        
+        function showNewAddressForm() {
+            document.getElementById('newAddressForm').style.display = 'block';
+            document.getElementById('addNewAddressBtn').style.display = 'none';
+        }
+        
+        function cancelNewAddress() {
+            document.getElementById('newAddressForm').style.display = 'none';
+            document.getElementById('addNewAddressBtn').style.display = 'block';
+            document.getElementById('addressForm').reset();
+            document.getElementById('saveBtn').textContent = 'Save Address';
+            editingAddressId = null;
+        }
+        
+        let editingAddressId = null;
+        
+        function saveAddress() {
+            const form = document.getElementById('addressForm');
+            const phone = document.getElementById('phoneNumber').value;
+            const whatsapp = document.getElementById('whatsappNumber').value;
+            const pincode = document.getElementById('pincode').value;
+            
+            // Validation
+            if (!/^[0-9]{10}$/.test(phone)) {
+                alert('Phone number must be exactly 10 digits');
+                return;
+            }
+            
+            if (whatsapp && !/^[0-9]{10}$/.test(whatsapp)) {
+                alert('WhatsApp number must be exactly 10 digits');
+                return;
+            }
+            
+            if (!/^[0-9]{6}$/.test(pincode)) {
+                alert('Pincode must be exactly 6 digits');
+                return;
+            }
+            
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            
+            const addresses = JSON.parse(localStorage.getItem('savedAddresses')) || [];
+            const addressData = {
+                fullName: document.getElementById('fullName').value,
+                phoneNumber: phone,
+                whatsappNumber: whatsapp,
+                completeAddress: document.getElementById('completeAddress').value,
+                city: document.getElementById('city').value,
+                state: document.getElementById('state').value,
+                pincode: pincode
+            };
+            
+            if (editingAddressId) {
+                // Update existing address
+                const index = addresses.findIndex(a => a.id === editingAddressId);
+                if (index !== -1) {
+                    addresses[index] = { ...addressData, id: editingAddressId };
+                }
+                selectedAddressId = editingAddressId;
+                editingAddressId = null;
+            } else {
+                // Add new address
+                const newAddress = { ...addressData, id: Date.now().toString() };
+                addresses.push(newAddress);
+                selectedAddressId = newAddress.id;
+            }
+            
+            localStorage.setItem('savedAddresses', JSON.stringify(addresses));
+            cancelNewAddress();
+            loadSavedAddresses();
+        }
+        
+        function editAddress(addressId) {
+            const addresses = JSON.parse(localStorage.getItem('savedAddresses')) || [];
+            const address = addresses.find(a => a.id === addressId);
+            if (!address) return;
+            
+            editingAddressId = addressId;
+            
+            document.getElementById('fullName').value = address.fullName;
+            document.getElementById('phoneNumber').value = address.phoneNumber;
+            document.getElementById('whatsappNumber').value = address.whatsappNumber || '';
+            document.getElementById('completeAddress').value = address.completeAddress;
+            document.getElementById('city').value = address.city;
+            document.getElementById('state').value = address.state || '';
+            document.getElementById('pincode').value = address.pincode;
+            
+            document.getElementById('saveBtn').textContent = 'Update Address';
+            showNewAddressForm();
+        }
+        
+        function deleteAddress(addressId) {
+            if (!confirm('Delete this address?')) return;
+            
+            let addresses = JSON.parse(localStorage.getItem('savedAddresses')) || [];
+            addresses = addresses.filter(a => a.id !== addressId);
+            localStorage.setItem('savedAddresses', JSON.stringify(addresses));
+            
+            if (selectedAddressId === addressId) {
+                selectedAddressId = null;
+            }
+            
+            loadSavedAddresses();
+        }
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCountElement = document.querySelector('.cart-count');
+            if (cartCountElement) {
+                cartCountElement.textContent = totalItems;
+            }
+        }
+    </script>
+
+    <style>
+        .order-section {
+            padding: 20px 0 100px;
+            background: var(--gray-50);
+            min-height: 100vh;
+        }
+
+        .order-section h1 {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .order-summary-card, .address-card, .payment-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .order-summary-card h2, .address-card h2, .payment-card h2 {
+            font-size: 20px;
+            color: var(--gray-900);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .order-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-item img {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-details h3 {
+            font-size: 16px;
+            color: var(--gray-900);
+            margin-bottom: 4px;
+        }
+
+        .item-details p {
+            font-size: 14px;
+            color: var(--gray-600);
+            margin: 0;
+        }
+
+        .item-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
+        .order-total {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid var(--gray-200);
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        .total-row.final {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            border-top: 1px solid var(--gray-200);
+            padding-top: 12px;
+            margin-top: 12px;
+        }
+
+        .free {
+            color: var(--success-green);
+            font-weight: 600;
+        }
+
+        #addressForm {
+            display: grid;
+            gap: 16px;
+        }
+
+        #addressForm input, #addressForm textarea {
+            padding: 16px;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        #addressForm input:focus, #addressForm textarea:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+        }
+
+        .payment-options {
+            display: grid;
+            gap: 16px;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border: 2px solid var(--gray-200);
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .payment-option:hover {
+            border-color: var(--primary-blue);
+            background: var(--gray-50);
+        }
+
+        .payment-option input[type="radio"] {
+            margin-right: 16px;
+            transform: scale(1.2);
+            accent-color: var(--primary-blue);
+        }
+
+        .payment-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .payment-info i {
+            font-size: 24px;
+            color: var(--primary-blue);
+        }
+
+        .payment-info h3 {
+            font-size: 16px;
+            color: var(--gray-900);
+            margin-bottom: 4px;
+        }
+
+        .payment-info p {
+            font-size: 14px;
+            color: var(--gray-600);
+            margin: 0;
+        }
+
+        .place-order-btn {
+            width: 100%;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .place-order-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .address-card-item {
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .address-card-item.selected {
+            border-color: var(--primary-blue);
+            background: rgba(37, 99, 235, 0.05);
+        }
+        
+        .address-card-item:hover {
+            border-color: var(--primary-blue);
+        }
+        
+        .address-content h3 {
+            font-size: 16px;
+            color: var(--gray-900);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .address-content p {
+            font-size: 14px;
+            color: var(--gray-600);
+            margin-bottom: 4px;
+        }
+        
+        .address-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        
+        .edit-btn, .delete-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .edit-btn {
+            background: var(--primary-blue);
+            color: white;
+        }
+        
+        .delete-btn {
+            background: var(--error-red);
+            color: white;
+        }
+        
+        .edit-btn:hover, .delete-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .save-address-btn, .cancel-btn, .add-address-btn {
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .save-address-btn {
+            background: var(--success-green);
+            color: white;
+        }
+        
+        .cancel-btn {
+            background: var(--gray-300);
+            color: var(--gray-700);
+        }
+        
+        .add-address-btn {
+            background: var(--primary-blue);
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        
+        .no-addresses {
+            text-align: center;
+            color: var(--gray-500);
+            padding: 20px;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .order-summary-card, .address-card, .payment-card {
+                padding: 20px;
+                margin-bottom: 16px;
+            }
+
+            .order-item {
+                gap: 12px;
+            }
+
+            .order-item img {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .address-card-item {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .address-actions {
+                align-self: flex-end;
+                margin-top: 0;
+            }
+        }
+    </style>
+</body>
+</html>

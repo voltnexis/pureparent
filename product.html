@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - PureParent</title>
+    <link rel="stylesheet" href="premium-styles.css">
+    <link rel="stylesheet" href="additional-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Premium Header -->
+    <header class="premium-header">
+        <nav class="main-nav">
+            <div class="container">
+                <div class="nav-left">
+                    <div class="logo-premium">
+                        <img src="img/logo2.png" alt="PureParent">
+                        <div class="logo-text">
+                            <h1>PureParent</h1>
+                            <span>Premium Baby Care</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user-circle"></i>
+                    </a>
+                    <a href="wishlist.html" class="nav-link">
+                        <i class="fas fa-heart"></i>
+                    </a>
+                    <a href="cart.html" class="nav-link cart-premium">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Product Details Section -->
+    <section class="product-details-premium">
+        <div class="container">
+            <div class="product-container-premium">
+                <!-- Product Image Gallery -->
+                <div class="product-image-section-premium">
+                    <div class="image-gallery-premium">
+                        <div class="main-image-container">
+                            <button class="image-nav-btn prev-btn" onclick="previousImage()">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <div class="main-image-premium">
+                                <img id="mainProductImage" src="img/placeholder.jpg" alt="Product Image" onclick="zoomImage()">
+                                <div class="zoom-hint">Click to zoom</div>
+                            </div>
+                            <button class="image-nav-btn next-btn" onclick="nextImage()">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        <div class="image-thumbnails" id="imageThumbnails">
+                            <!-- Thumbnails will be loaded here -->
+                        </div>
+                        <div class="image-counter">
+                            <span id="currentImageIndex">1</span> / <span id="totalImages">1</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Info -->
+                <div class="product-info-section-premium">
+                    <div class="product-badges-premium" id="productBadges">
+                        <!-- Badges will be loaded here -->
+                    </div>
+                    
+                    <h1 id="productName" class="product-title-premium">Product Name</h1>
+                    
+                    <div class="product-rating-premium" id="productRating">
+                        <!-- Rating will be loaded here -->
+                    </div>
+                    
+                    <div class="product-price-premium" id="productPrice">₹0</div>
+                    
+                    <!-- Key Features -->
+                    <div class="key-features-premium">
+                        <div class="feature-item">
+                            <i class="fas fa-certificate"></i>
+                            <span>100% Safe & Certified</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-leaf"></i>
+                            <span>Organic Materials</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-user-md"></i>
+                            <span>Doctor Recommended</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-shipping-fast"></i>
+                            <span>Same Day Delivery</span>
+                        </div>
+                    </div>
+
+                    <!-- Quantity Selector -->
+                    <div class="quantity-section-premium">
+                        <label>Quantity:</label>
+                        <div class="quantity-controls-premium">
+                            <button onclick="changeQuantity(-1)" class="qty-btn">-</button>
+                            <span id="quantity" class="qty-display">1</span>
+                            <button onclick="changeQuantity(1)" class="qty-btn">+</button>
+                        </div>
+                    </div>
+
+                    <!-- Quality Score -->
+                    <div class="quality-score-section">
+                        <div class="quality-badge-inline">
+                            <span id="qualityScoreInline">95</span>/100
+                            <small>Quality Score</small>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons-premium">
+                        <button class="buy-now-premium" onclick="buyNow()">
+                            <i class="fas fa-bolt"></i>
+                            Buy Now - ₹<span id="buyNowPrice">0</span>
+                        </button>
+                        <button class="add-to-cart-premium" id="addToCartBtn">
+                            <i class="fas fa-shopping-bag"></i>
+                            Add to Cart - ₹<span id="totalPrice">0</span>
+                        </button>
+                        <button class="wishlist-btn-premium" onclick="addToWishlist()">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+
+                    <!-- Delivery Info -->
+                    <div class="delivery-info-premium">
+                        <div class="delivery-item-premium">
+                            <i class="fas fa-truck"></i>
+                            <div>
+                                <strong>Free Delivery</strong>
+                                <small>By tomorrow 10 AM</small>
+                            </div>
+                        </div>
+                        <div class="delivery-item-premium">
+                            <i class="fas fa-undo"></i>
+                            <div>
+                                <strong>Easy Returns</strong>
+                                <small>30-day return policy</small>
+                            </div>
+                        </div>
+                        <div class="delivery-item-premium">
+                            <i class="fas fa-shield-alt"></i>
+                            <div>
+                                <strong>Warranty</strong>
+                                <small>1-year manufacturer warranty</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Safety Certificates -->
+    <section class="certificates-section-premium">
+        <div class="container">
+            <h2>🔒 Safety Certificates</h2>
+            <div class="certificates-grid-premium">
+                <div class="cert-badge-premium iso">
+                    <i class="fas fa-certificate"></i>
+                    <span>ISO 9001</span>
+                </div>
+                <div class="cert-badge-premium fda">
+                    <i class="fas fa-check-circle"></i>
+                    <span>FDA Approved</span>
+                </div>
+                <div class="cert-badge-premium bis">
+                    <i class="fas fa-award"></i>
+                    <span>BIS Certified</span>
+                </div>
+                <div class="cert-badge-premium ce">
+                    <i class="fas fa-star"></i>
+                    <span>CE Marked</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="reviews-section-premium">
+        <div class="container">
+            <h2>⭐ Parent Reviews</h2>
+            <div class="reviews-container-premium" id="reviewsContainer">
+                <!-- Reviews will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="related-products-premium">
+        <div class="container">
+            <h2>You might also like</h2>
+            <div class="products-grid" id="relatedProducts">
+                <!-- Related products will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Zoom Modal -->
+    <div id="imageZoomModal" class="zoom-modal" onclick="closeZoom()">
+        <img id="zoomedImage" src="" alt="Zoomed Product">
+        <span class="close-zoom">&times;</span>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav-premium">
+        <a href="index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="shop.html" class="nav-item">
+            <i class="fas fa-store"></i>
+            <span>Shop</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <i class="fas fa-box"></i>
+            <span>Orders</span>
+        </a>
+        <a href="wishlist.html" class="nav-item">
+            <i class="fas fa-heart"></i>
+            <span>Wishlist</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <script src="product.js"></script>
+    <style>
+        /* Premium Product Page Styles */
+        .product-details-premium {
+            padding: 40px 0;
+            background: white;
+        }
+
+        .product-container-premium {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .product-image-section-premium {
+            position: relative;
+        }
+
+        .main-image-premium {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .main-image-premium img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            cursor: zoom-in;
+        }
+
+        .zoom-hint {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .quality-badge-large {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--success-green);
+            color: white;
+            padding: 16px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+        }
+
+        .quality-badge-large span {
+            font-size: 24px;
+            font-weight: 700;
+            display: block;
+        }
+
+        .quality-badge-large small {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .product-info-section-premium {
+            padding: 20px 0;
+        }
+
+        .product-badges-premium {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .product-title-premium {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .product-rating-premium {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            font-size: 16px;
+        }
+
+        .product-price-premium {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 24px;
+        }
+
+        .key-features-premium {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: var(--gray-50);
+            border-radius: 12px;
+        }
+
+        .feature-item i {
+            color: var(--success-green);
+            font-size: 20px;
+        }
+
+        .quantity-section-premium {
+            margin-bottom: 24px;
+        }
+
+        .quantity-section-premium label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--gray-900);
+        }
+
+        .quantity-controls-premium {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .qty-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--primary-blue);
+            background: white;
+            color: var(--primary-blue);
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .qty-btn:hover {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .qty-display {
+            font-size: 20px;
+            font-weight: 600;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .action-buttons-premium {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .add-to-cart-premium {
+            flex: 1;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .add-to-cart-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .wishlist-btn-premium {
+            width: 56px;
+            height: 56px;
+            background: white;
+            border: 2px solid var(--primary-blue);
+            color: var(--primary-blue);
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s;
+        }
+
+        .wishlist-btn-premium:hover {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .delivery-info-premium {
+            display: grid;
+            gap: 16px;
+        }
+
+        .delivery-item-premium {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: var(--gray-50);
+            border-radius: 12px;
+        }
+
+        .delivery-item-premium i {
+            color: var(--success-green);
+            font-size: 20px;
+            width: 24px;
+        }
+
+        .delivery-item-premium strong {
+            display: block;
+            color: var(--gray-900);
+            font-weight: 600;
+        }
+
+        .delivery-item-premium small {
+            color: var(--gray-600);
+            font-size: 14px;
+        }
+
+        .certificates-section-premium {
+            padding: 60px 0;
+            background: var(--gray-50);
+        }
+
+        .certificates-section-premium h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .certificates-grid-premium {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .cert-badge-premium {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.3s;
+        }
+
+        .cert-badge-premium:hover {
+            transform: translateY(-4px);
+        }
+
+        .cert-badge-premium i {
+            font-size: 32px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .cert-badge-premium.iso i { color: var(--success-green); }
+        .cert-badge-premium.fda i { color: var(--primary-blue); }
+        .cert-badge-premium.bis i { color: var(--accent-orange); }
+        .cert-badge-premium.ce i { color: var(--secondary-purple); }
+
+        .reviews-section-premium {
+            padding: 60px 0;
+            background: white;
+        }
+
+        .reviews-section-premium h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .reviews-container-premium {
+            display: grid;
+            gap: 24px;
+        }
+
+        .related-products-premium {
+            padding: 60px 0;
+            background: var(--gray-50);
+        }
+
+        .related-products-premium h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        /* Mobile Responsive */
+        .badge-premium {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .stars {
+            color: var(--accent-orange);
+            font-size: 18px;
+        }
+
+        .rating-text {
+            color: var(--gray-600);
+            margin-left: 8px;
+        }
+
+        .review-item-premium {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
+        }
+
+        .review-header-premium {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .reviewer-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .reviewer-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .reviewer-name {
+            font-weight: 600;
+            color: var(--gray-900);
+            display: block;
+        }
+
+        .review-rating {
+            color: var(--accent-orange);
+            font-size: 14px;
+        }
+
+        .review-date {
+            color: var(--gray-500);
+            font-size: 12px;
+        }
+
+        .review-comment {
+            color: var(--gray-700);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .product-container-premium {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .main-image-premium img {
+                height: 300px;
+            }
+
+            .product-title-premium {
+                font-size: 24px;
+            }
+
+            .product-price-premium {
+                font-size: 28px;
+            }
+
+            .key-features-premium {
+                grid-template-columns: 1fr;
+            }
+
+            .certificates-grid-premium {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .action-buttons-premium {
+                flex-direction: column;
+            }
+
+            .wishlist-btn-premium {
+                width: 100%;
+                height: 48px;
+            }
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmed - PureParent</title>
+    <link rel="stylesheet" href="premium-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Premium Header -->
+    <header class="premium-header">
+        <nav class="main-nav">
+            <div class="container">
+                <div class="nav-left">
+                    <div class="logo-premium">
+                        <img src="img/logo2.png" alt="PureParent">
+                        <div class="logo-text">
+                            <h1>PureParent</h1>
+                            <span>Premium Baby Care</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user-circle"></i>
+                    </a>
+                    <a href="cart.html" class="nav-link cart-premium">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Order Confirmation Section -->
+    <section class="confirmation-section">
+        <div class="container">
+            <div class="confirmation-container">
+                <!-- Success Animation -->
+                <div class="success-animation">
+                    <div class="checkmark-circle">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </div>
+
+                <!-- Confirmation Message -->
+                <div class="confirmation-message">
+                    <h1>🎉 Order Confirmed!</h1>
+                    <p>Thank you for your purchase. Your order has been successfully placed.</p>
+                </div>
+
+                <!-- Order Details -->
+                <div class="order-details-card">
+                    <h2>Order Details</h2>
+                    <div class="order-info">
+                        <div class="info-row">
+                            <span>Order ID:</span>
+                            <span id="orderId">#PP2024001</span>
+                        </div>
+                        <div class="info-row">
+                            <span>Order Date:</span>
+                            <span id="orderDate"></span>
+                        </div>
+                        <div class="info-row">
+                            <span>Total Amount:</span>
+                            <span id="orderTotal">₹999</span>
+                        </div>
+                        <div class="info-row">
+                            <span>Payment Status:</span>
+                            <span id="paymentStatus" class="status-paid">✅ Paid</span>
+                        </div>
+                        <div class="info-row">
+                            <span>Delivery Status:</span>
+                            <span class="status-processing">📦 Processing</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Delivery Info -->
+                <div class="delivery-info-card">
+                    <h2>📍 Delivery Information</h2>
+                    <div class="delivery-timeline">
+                        <div class="timeline-item active">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <h3>Order Confirmed</h3>
+                                <p>Your order has been placed successfully</p>
+                                <small>Just now</small>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <h3>Processing</h3>
+                                <p>We're preparing your order</p>
+                                <small>Within 2 hours</small>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <h3>Shipped</h3>
+                                <p>Your order is on the way</p>
+                                <small>Within 24 hours</small>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <h3>Delivered</h3>
+                                <p>Order delivered to your address</p>
+                                <small>2-3 business days</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button onclick="downloadInvoice()" class="btn-invoice">
+                        <i class="fas fa-file-pdf"></i>
+                        Download Invoice
+                    </button>
+                    <button onclick="window.location.href='orders.html'" class="btn-primary">
+                        <i class="fas fa-box"></i>
+                        Track Order
+                    </button>
+                    <button onclick="window.location.href='shop.html'" class="btn-secondary">
+                        <i class="fas fa-shopping-bag"></i>
+                        Continue Shopping
+                    </button>
+                </div>
+
+                <!-- Support Info -->
+                <div class="support-info">
+                    <div class="support-item">
+                        <i class="fas fa-headset"></i>
+                        <div>
+                            <h3>Need Help?</h3>
+                            <p>Contact our 24/7 support team</p>
+                        </div>
+                    </div>
+                    <div class="support-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <div>
+                            <h3>100% Secure</h3>
+                            <p>Your payment is safe with us</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav-premium">
+        <a href="index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="shop.html" class="nav-item">
+            <i class="fas fa-store"></i>
+            <span>Shop</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <i class="fas fa-box"></i>
+            <span>Orders</span>
+        </a>
+        <a href="tools.html" class="nav-item">
+            <i class="fas fa-heart"></i>
+            <span>Mom Tools</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            generateOrderDetails();
+            updateCartCount();
+            
+            // Clear order data after displaying
+            setTimeout(() => {
+                sessionStorage.removeItem('currentOrder');
+                localStorage.removeItem('selectedProduct');
+            }, 1000);
+        });
+
+        function generateOrderDetails() {
+            // Generate order ID
+            const orderId = '#PP' + new Date().getFullYear() + Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+            document.getElementById('orderId').textContent = orderId;
+            
+            // Set order date
+            const orderDate = new Date().toLocaleDateString('en-IN', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+            document.getElementById('orderDate').textContent = orderDate;
+            
+            // Get order data from sessionStorage
+            const orderData = JSON.parse(sessionStorage.getItem('currentOrder'));
+            if (orderData) {
+                if (orderData.total) {
+                    document.getElementById('orderTotal').textContent = `₹${orderData.total.toLocaleString()}`;
+                }
+                
+                // Set payment status based on payment method
+                const paymentStatusEl = document.getElementById('paymentStatus');
+                if (orderData.paymentMethod === 'cod') {
+                    paymentStatusEl.innerHTML = '💰 Cash on Delivery';
+                    paymentStatusEl.className = 'status-cod';
+                } else if (orderData.paymentStatus === 'paid' || orderData.paymentMethod === 'upi' || orderData.paymentMethod === 'card') {
+                    paymentStatusEl.innerHTML = '✅ Paid';
+                    paymentStatusEl.className = 'status-paid';
+                } else {
+                    paymentStatusEl.innerHTML = '✅ Paid';
+                    paymentStatusEl.className = 'status-paid';
+                }
+            }
+        }
+
+        function downloadInvoice() {
+            const orderData = JSON.parse(sessionStorage.getItem('currentOrder')) || {};
+            const orderId = document.getElementById('orderId').textContent;
+            const orderDate = document.getElementById('orderDate').textContent;
+            const orderTotal = document.getElementById('orderTotal').textContent;
+            
+            // Create invoice content
+            const invoiceContent = `
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+                    <div style="text-align: center; margin-bottom: 30px;">
+                        <h1 style="color: #2563EB; margin-bottom: 5px;">PureParent</h1>
+                        <p style="color: #666; margin: 0;">Premium Baby Care</p>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                        <h2 style="color: #333; margin-bottom: 15px;">Invoice</h2>
+                        <p><strong>Order ID:</strong> ${orderId}</p>
+                        <p><strong>Date:</strong> ${orderDate}</p>
+                        <p><strong>Total Amount:</strong> ${orderTotal}</p>
+                        <p><strong>Payment Status:</strong> ${orderData.paymentMethod === 'cod' ? 'Cash on Delivery' : 'Paid'}</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <h3 style="color: #333;">Order Items:</h3>
+                        ${orderData.items ? orderData.items.map(item => `
+                            <div style="border-bottom: 1px solid #eee; padding: 10px 0;">
+                                <p><strong>${item.name}</strong></p>
+                                <p>Quantity: ${item.quantity} | Price: ₹${item.price}</p>
+                            </div>
+                        `).join('') : '<p>Product details</p>'}
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 30px; color: #666;">
+                        <p>Thank you for shopping with PureParent!</p>
+                        <p>For support: support@pureparent.com | +91 98765 43210</p>
+                    </div>
+                </div>
+            `;
+            
+            // Create and download PDF
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                    <head><title>Invoice - ${orderId}</title></head>
+                    <body>${invoiceContent}</body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCountElement = document.querySelector('.cart-count');
+            if (cartCountElement) {
+                cartCountElement.textContent = totalItems;
+            }
+        }
+    </script>
+
+    <style>
+        .confirmation-section {
+            padding: 20px 0 100px;
+            background: var(--gray-50);
+            min-height: 100vh;
+        }
+
+        .confirmation-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .success-animation {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .checkmark-circle {
+            width: 100px;
+            height: 100px;
+            background: var(--success-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            animation: scaleIn 0.5s ease-out;
+        }
+
+        .checkmark-circle i {
+            font-size: 40px;
+            color: white;
+        }
+
+        @keyframes scaleIn {
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
+        }
+
+        .confirmation-message {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .confirmation-message h1 {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 12px;
+        }
+
+        .confirmation-message p {
+            font-size: 16px;
+            color: var(--gray-600);
+            margin: 0;
+        }
+
+        .order-details-card, .delivery-info-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .order-details-card h2, .delivery-info-card h2 {
+            font-size: 20px;
+            color: var(--gray-900);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .order-info {
+            display: grid;
+            gap: 16px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-row span:first-child {
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        .info-row span:last-child {
+            color: var(--gray-900);
+            font-weight: 600;
+        }
+
+        .status-paid {
+            color: var(--success-green) !important;
+        }
+        
+        .status-cod {
+            color: var(--accent-orange) !important;
+        }
+
+        .status-processing {
+            color: var(--accent-orange) !important;
+        }
+
+        .delivery-timeline {
+            display: grid;
+            gap: 20px;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 16px;
+            position: relative;
+        }
+
+        .timeline-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 32px;
+            width: 2px;
+            height: 40px;
+            background: var(--gray-200);
+        }
+
+        .timeline-item.active::after {
+            background: var(--primary-blue);
+        }
+
+        .timeline-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--gray-200);
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .timeline-item.active .timeline-dot {
+            background: var(--primary-blue);
+        }
+
+        .timeline-content h3 {
+            font-size: 16px;
+            color: var(--gray-900);
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .timeline-content p {
+            font-size: 14px;
+            color: var(--gray-600);
+            margin-bottom: 4px;
+        }
+
+        .timeline-content small {
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .btn-primary, .btn-secondary, .btn-invoice {
+            padding: 16px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: none;
+        }
+        
+        .btn-invoice {
+            background: var(--error-red);
+            color: white;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary-blue);
+            border: 2px solid var(--primary-blue);
+        }
+
+        .btn-primary:hover, .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .support-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .support-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .support-item i {
+            font-size: 24px;
+            color: var(--primary-blue);
+        }
+
+        .support-item h3 {
+            font-size: 16px;
+            color: var(--gray-900);
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .support-item p {
+            font-size: 14px;
+            color: var(--gray-600);
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .action-buttons {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            
+            .btn-primary, .btn-secondary, .btn-invoice {
+                font-size: 16px;
+                padding: 16px 24px;
+            }
+
+            .support-info {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .order-details-card, .delivery-info-card {
+                padding: 20px;
+            }
+
+            .confirmation-message h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</body>
+</html>

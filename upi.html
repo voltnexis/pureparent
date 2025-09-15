@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPI Payment - PureParent</title>
+    <link rel="stylesheet" href="premium-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Premium Header -->
+    <header class="premium-header">
+        <nav class="main-nav">
+            <div class="container">
+                <div class="nav-left">
+                    <div class="logo-premium">
+                        <img src="img/logo2.png" alt="PureParent">
+                        <div class="logo-text">
+                            <h1>PureParent</h1>
+                            <span>Premium Baby Care</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- UPI Payment Section -->
+    <section class="upi-section">
+        <div class="container">
+            <div class="payment-container">
+                <div class="payment-header">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h1>UPI Payment</h1>
+                    <p>Complete your payment securely</p>
+                </div>
+
+                <!-- Payment Amount -->
+                <div class="amount-card">
+                    <div class="amount-label">Amount to Pay</div>
+                    <div class="amount-value" id="paymentAmount">₹999</div>
+                </div>
+
+                <!-- UPI Options -->
+                <div class="upi-options">
+                    <h2>Choose Payment Method</h2>
+                    
+                    <div class="upi-method" onclick="selectUPI('gpay')">
+                        <img src="https://via.placeholder.com/40x40/4285F4/FFFFFF?text=G" alt="Google Pay">
+                        <span>Google Pay</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                    
+                    <div class="upi-method" onclick="selectUPI('phonepe')">
+                        <img src="https://via.placeholder.com/40x40/5F259F/FFFFFF?text=P" alt="PhonePe">
+                        <span>PhonePe</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                    
+                    <div class="upi-method" onclick="selectUPI('paytm')">
+                        <img src="https://via.placeholder.com/40x40/00BAF2/FFFFFF?text=P" alt="Paytm">
+                        <span>Paytm</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                    
+                    <div class="upi-method" onclick="selectUPI('other')">
+                        <i class="fas fa-university"></i>
+                        <span>Other UPI Apps</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+
+                <!-- UPI ID Input -->
+                <div class="upi-input-section">
+                    <h3>Or Enter UPI ID</h3>
+                    <div class="upi-input-group">
+                        <input type="text" id="upiId" placeholder="yourname@upi" maxlength="50">
+                        <button onclick="payWithUPI()" class="pay-btn">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Security Info -->
+                <div class="security-info">
+                    <div class="security-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>100% Secure Payment</span>
+                    </div>
+                    <div class="security-item">
+                        <i class="fas fa-lock"></i>
+                        <span>SSL Encrypted</span>
+                    </div>
+                </div>
+
+                <!-- Timer -->
+                <div class="payment-timer">
+                    <i class="fas fa-clock"></i>
+                    <span>Complete payment in <span id="timer">10:00</span></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        let countdown = 600; // 10 minutes
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPaymentAmount();
+            startTimer();
+        });
+
+        function loadPaymentAmount() {
+            const orderData = JSON.parse(sessionStorage.getItem('currentOrder'));
+            if (orderData && orderData.total) {
+                document.getElementById('paymentAmount').textContent = `₹${orderData.total.toLocaleString()}`;
+            }
+        }
+
+        function startTimer() {
+            const timerElement = document.getElementById('timer');
+            
+            const interval = setInterval(() => {
+                const minutes = Math.floor(countdown / 60);
+                const seconds = countdown % 60;
+                timerElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                
+                countdown--;
+                
+                if (countdown < 0) {
+                    clearInterval(interval);
+                    alert('Payment session expired. Please try again.');
+                    window.location.href = 'place_order.html';
+                }
+            }, 1000);
+        }
+
+        function selectUPI(method) {
+            // Simulate UPI app opening
+            showPaymentProcessing();
+            
+            setTimeout(() => {
+                // Simulate successful payment
+                completePayment();
+            }, 3000);
+        }
+
+        function payWithUPI() {
+            const upiId = document.getElementById('upiId').value.trim();
+            
+            if (!upiId) {
+                alert('Please enter a valid UPI ID');
+                return;
+            }
+            
+            if (!upiId.includes('@')) {
+                alert('Please enter a valid UPI ID (e.g., yourname@upi)');
+                return;
+            }
+            
+            showPaymentProcessing();
+            
+            setTimeout(() => {
+                completePayment();
+            }, 3000);
+        }
+
+        function showPaymentProcessing() {
+            document.body.innerHTML = `
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: var(--gray-50);">
+                    <div style="background: white; padding: 40px; border-radius: 20px; text-align: center; box-shadow: var(--shadow-lg);">
+                        <div style="width: 60px; height: 60px; border: 4px solid var(--primary-blue); border-top: 4px solid transparent; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
+                        <h2 style="color: var(--gray-900); margin-bottom: 10px;">Processing Payment...</h2>
+                        <p style="color: var(--gray-600);">Please wait while we process your payment</p>
+                    </div>
+                </div>
+                <style>
+                    @keyframes spin {
+                        0% { transform: rotate(0deg); }
+                        100% { transform: rotate(360deg); }
+                    }
+                </style>
+            `;
+        }
+
+        function completePayment() {
+            // Update order data to mark as paid
+            const orderData = JSON.parse(sessionStorage.getItem('currentOrder')) || {};
+            orderData.paymentMethod = 'upi';
+            orderData.paymentStatus = 'paid';
+            sessionStorage.setItem('currentOrder', JSON.stringify(orderData));
+            
+            // Clear cart and selected product
+            localStorage.removeItem('cart');
+            localStorage.removeItem('selectedProduct');
+            
+            // Redirect to confirmation
+            window.location.href = 'order_confirmed.html';
+        }
+    </script>
+
+    <style>
+        .upi-section {
+            padding: 20px 0;
+            background: var(--gray-50);
+            min-height: 100vh;
+        }
+
+        .payment-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .payment-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .payment-header i {
+            font-size: 48px;
+            color: var(--primary-blue);
+            margin-bottom: 16px;
+        }
+
+        .payment-header h1 {
+            font-size: 28px;
+            color: var(--gray-900);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .payment-header p {
+            color: var(--gray-600);
+            margin: 0;
+        }
+
+        .amount-card {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 24px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .amount-label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .amount-value {
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .upi-options {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .upi-options h2 {
+            font-size: 18px;
+            color: var(--gray-900);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .upi-method {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upi-method:hover {
+            border-color: var(--primary-blue);
+            background: var(--gray-50);
+        }
+
+        .upi-method img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+        }
+
+        .upi-method i:first-child {
+            font-size: 24px;
+            color: var(--primary-blue);
+            width: 40px;
+            text-align: center;
+        }
+
+        .upi-method span {
+            flex: 1;
+            font-weight: 500;
+            color: var(--gray-900);
+        }
+
+        .upi-method i:last-child {
+            color: var(--gray-400);
+        }
+
+        .upi-input-section {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .upi-input-section h3 {
+            font-size: 16px;
+            color: var(--gray-900);
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .upi-input-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .upi-input-group input {
+            flex: 1;
+            padding: 16px;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .upi-input-group input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+        }
+
+        .pay-btn {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 16px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .pay-btn:hover {
+            background: var(--primary-blue-dark);
+        }
+
+        .security-info {
+            display: flex;
+            justify-content: space-around;
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .security-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--success-green);
+            font-weight: 500;
+        }
+
+        .security-item i {
+            font-size: 16px;
+        }
+
+        .payment-timer {
+            text-align: center;
+            background: rgba(244, 67, 54, 0.1);
+            color: var(--error-red);
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        .payment-timer i {
+            margin-right: 8px;
+        }
+
+        @media (max-width: 480px) {
+            .payment-container {
+                padding: 0 16px;
+            }
+
+            .security-info {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop All - PureParent</title>
+    <link rel="stylesheet" href="premium-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Premium Header -->
+    <header class="premium-header">
+        <nav class="main-nav">
+            <div class="container">
+                <div class="nav-left">
+                    <div class="logo-premium">
+                        <img src="img/logo2.png" alt="PureParent">
+                        <div class="logo-text">
+                            <h1>PureParent</h1>
+                            <span>Premium Baby Care</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user-circle"></i>
+                    </a>
+                    <a href="wishlist.html" class="nav-link">
+                        <i class="fas fa-heart"></i>
+                    </a>
+                    <a href="cart.html" class="nav-link cart-premium">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Search & Filter Section -->
+    <section class="shop-controls-premium">
+        <div class="container">
+            <!-- Search Bar with Filter Button -->
+            <div class="search-filter-row">
+                <div class="search-bar-premium">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search baby products..." id="searchInput">
+                </div>
+                <button class="filter-toggle-btn" onclick="toggleFilters()">
+                    <i class="fas fa-filter"></i>
+                    Filters
+                </button>
+            </div>
+            
+            <!-- Filters (Hidden by default) -->
+            <div class="filters-premium" id="filtersContainer" style="display: none;">
+                <select id="categoryFilter" class="filter-select-premium">
+                    <option value="">All Categories</option>
+                    <option value="clothes">👕 Clothes</option>
+                    <option value="feeding">🍼 Feeding</option>
+                    <option value="diapers">🚼 Diapers</option>
+                    <option value="toys">🧸 Toys</option>
+                    <option value="nursery">🏡 Nursery</option>
+                    <option value="gifts">🎁 Gifts</option>
+                </select>
+                
+                <select id="ageFilter" class="filter-select-premium">
+                    <option value="">All Ages</option>
+                    <option value="0-6">0-6 months</option>
+                    <option value="6-12">6-12 months</option>
+                    <option value="1-2">1-2 years</option>
+                    <option value="2-3">2-3 years</option>
+                    <option value="3+">3+ years</option>
+                </select>
+                
+                <select id="priceFilter" class="filter-select-premium">
+                    <option value="">All Prices</option>
+                    <option value="0-500">Under ₹500</option>
+                    <option value="500-1000">₹500 - ₹1000</option>
+                    <option value="1000-2000">₹1000 - ₹2000</option>
+                    <option value="2000+">Above ₹2000</option>
+                </select>
+                
+                <label class="filter-checkbox-premium">
+                    <input type="checkbox" id="ecoFilter"> 🌱 Eco-Friendly
+                </label>
+                
+                <label class="filter-checkbox-premium">
+                    <input type="checkbox" id="organicFilter"> ✅ Organic
+                </label>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section-premium">
+        <div class="container">
+            <div class="products-header-premium">
+                <h2 id="sectionTitle">All Products</h2>
+                <select id="sortBy" class="sort-select-premium">
+                    <option value="popular">Most Popular</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="rating">Highest Rated</option>
+                    <option value="newest">Newest First</option>
+                </select>
+            </div>
+        
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be loaded here -->
+            </div>
+            
+            <div id="noResults" class="no-results-premium" style="display: none;">
+                <i class="fas fa-search"></i>
+                <h3>No products found</h3>
+                <p>Try adjusting your filters or search terms</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav-premium">
+        <a href="index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="shop.html" class="nav-item active">
+            <i class="fas fa-store"></i>
+            <span>Shop</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <i class="fas fa-box"></i>
+            <span>Orders</span>
+        </a>
+        <a href="tools.html" class="nav-item">
+            <i class="fas fa-heart"></i>
+            <span>Mom Tools</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <script src="supabase-config.js"></script>
+    <script src="shop.js"></script>
+    <script>
+        // Toggle filters visibility
+        function toggleFilters() {
+            const filtersContainer = document.getElementById('filtersContainer');
+            const isVisible = filtersContainer.style.display !== 'none';
+            filtersContainer.style.display = isVisible ? 'none' : 'flex';
+        }
+        
+        // Auto search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const query = e.target.value.trim();
+            if (query.length > 0) {
+                filterBySearch(query);
+                document.getElementById('sectionTitle').textContent = `Search Results for "${query}"`;
+            } else {
+                // Show all products when search is empty
+                loadAllProducts();
+                document.getElementById('sectionTitle').textContent = 'All Products';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mom Tools - PureParent</title>
+    <link rel="stylesheet" href="premium-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Premium Header -->
+    <header class="premium-header">
+        <nav class="main-nav">
+            <div class="container">
+                <div class="nav-left">
+                    <div class="logo-premium">
+                        <img src="img/logo2.png" alt="PureParent">
+                        <div class="logo-text">
+                            <h1>PureParent</h1>
+                            <span>Premium Baby Care</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user-circle"></i>
+                    </a>
+                    <a href="wishlist.html" class="nav-link">
+                        <i class="fas fa-heart"></i>
+                    </a>
+                    <a href="cart.html" class="nav-link cart-premium">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Tools Section -->
+    <section class="tools-section">
+        <div class="container">
+            <h1>💝 Mom Tools</h1>
+            <p class="tools-subtitle">Essential parenting tools at your fingertips</p>
+            
+            <!-- Tool Navigation Cards -->
+            <div class="tools-grid">
+                <a href="sleep.html" class="tool-card-link">
+                    <div class="tool-card-preview">
+                        <i class="fas fa-moon tool-icon sleep"></i>
+                        <h3>😴 Sleep Helper</h3>
+                        <p>Track sleep patterns and get solutions for sleep issues</p>
+                    </div>
+                </a>
+                <a href="feeding.html" class="tool-card-link">
+                    <div class="tool-card-preview">
+                        <i class="fas fa-baby tool-icon feeding"></i>
+                        <h3>🍼 Feeding Log</h3>
+                        <p>Log feedings and track nutrition patterns</p>
+                    </div>
+                </a>
+                <a href="growth.html" class="tool-card-link">
+                    <div class="tool-card-preview">
+                        <i class="fas fa-chart-line tool-icon growth"></i>
+                        <h3>📈 Growth Track</h3>
+                        <p>Monitor milestones and development progress</p>
+                    </div>
+                </a>
+                <a href="health.html" class="tool-card-link">
+                    <div class="tool-card-preview">
+                        <i class="fas fa-heartbeat tool-icon health"></i>
+                        <h3>🏥 Health Alerts</h3>
+                        <p>Vaccination reminders and health checkups</p>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Quick Overview -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <i class="fas fa-lightbulb tool-icon tips"></i>
+                    <h2>Today's Parenting Tip</h2>
+                </div>
+                <div class="daily-tip" id="dailyTip">
+                    <p>"Tummy time for 5 minutes helps strengthen your baby's neck muscles. Start with short sessions and gradually increase duration."</p>
+                    <div class="tip-category">Physical Development</div>
+                </div>
+                <button class="refresh-tip" onclick="getNewTip()">Get New Tip</button>
+                
+                <div class="tip-categories">
+                    <button class="category-btn" onclick="getTipByCategory('physical')">🏃 Physical</button>
+                    <button class="category-btn" onclick="getTipByCategory('language')">🗣️ Language</button>
+                    <button class="category-btn" onclick="getTipByCategory('sleep')">😴 Sleep</button>
+                    <button class="category-btn" onclick="getTipByCategory('feeding')">🍼 Feeding</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav-premium">
+        <a href="index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="shop.html" class="nav-item">
+            <i class="fas fa-store"></i>
+            <span>Shop</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <i class="fas fa-box"></i>
+            <span>Orders</span>
+        </a>
+        <a href="tools.html" class="nav-item active">
+            <i class="fas fa-heart"></i>
+            <span>Mom Tools</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <script>
+        // Daily tips with categories
+        const tipsByCategory = {
+            physical: [
+                { text: "Tummy time for 5 minutes helps strengthen neck muscles", category: "Physical Development" },
+                { text: "Encourage reaching for toys to develop hand-eye coordination", category: "Physical Development" }
+            ],
+            language: [
+                { text: "Reading to baby develops language skills even before they understand words", category: "Language Development" },
+                { text: "Narrate your daily activities to expose baby to more words", category: "Language Development" }
+            ],
+            sleep: [
+                { text: "White noise can help baby sleep better by mimicking womb sounds", category: "Sleep" },
+                { text: "Consistent bedtime routine helps signal it's time to sleep", category: "Sleep" }
+            ],
+            feeding: [
+                { text: "Let baby explore food textures to develop eating skills", category: "Feeding" },
+                { text: "Offer water in a cup starting at 6 months", category: "Feeding" }
+            ]
+        };
+        
+        const allTips = Object.values(tipsByCategory).flat();
+
+        function getNewTip() {
+            const randomTip = allTips[Math.floor(Math.random() * allTips.length)];
+            document.getElementById('dailyTip').innerHTML = `
+                <p>"${randomTip.text}"</p>
+                <div class="tip-category">${randomTip.category}</div>
+            `;
+        }
+        
+        function getTipByCategory(category) {
+            const categoryTips = tipsByCategory[category] || allTips;
+            const randomTip = categoryTips[Math.floor(Math.random() * categoryTips.length)];
+            document.getElementById('dailyTip').innerHTML = `
+                <p>"${randomTip.text}"</p>
+                <div class="tip-category">${randomTip.category}</div>
+            `;
+        }
+
+        // Update cart count
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCountElement = document.querySelector('.cart-count');
+            if (cartCountElement) {
+                cartCountElement.textContent = totalItems;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', updateCartCount);
+    </script>
+
+    <style>
+        .tools-section {
+            padding: 20px 0 100px;
+            background: var(--gray-50);
+            min-height: 100vh;
+        }
+
+        .tools-section h1 {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .tools-subtitle {
+            text-align: center;
+            color: var(--gray-600);
+            margin-bottom: 30px;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .tool-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .tool-icon {
+            font-size: 32px;
+        }
+
+        .tool-header h2 {
+            font-size: 24px;
+            color: var(--gray-900);
+            margin: 0;
+        }
+
+        .refresh-tip {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 16px;
+        }
+
+        /* Tools Grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .tool-card-link {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .tool-card-preview {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .tool-card-preview:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-blue);
+        }
+        
+        .tool-card-preview .tool-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: var(--primary-blue);
+        }
+        
+        .tool-card-preview h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 8px;
+        }
+        
+        .tool-card-preview p {
+            color: var(--gray-600);
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0;
+        }
+        
+        .tip-categories {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            background: var(--gray-100);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--gray-700);
+            transition: all 0.3s;
+        }
+        
+        .category-btn:hover {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</body>
+</html>

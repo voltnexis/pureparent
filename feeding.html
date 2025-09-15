@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feeding Tracker - PureParent</title>
+    <link rel="stylesheet" href="premium-styles.css">
+    <link rel="stylesheet" href="back-nav-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Premium Header -->
+    <header class="premium-header">
+        <nav class="main-nav">
+            <div class="container">
+                <div class="nav-left">
+                    <div class="logo-premium">
+                        <img src="img/logo2.png" alt="PureParent">
+                        <div class="logo-text">
+                            <h1>PureParent</h1>
+                            <span>Premium Baby Care</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user-circle"></i>
+                    </a>
+                    <a href="wishlist.html" class="nav-link">
+                        <i class="fas fa-heart"></i>
+                    </a>
+                    <a href="cart.html" class="nav-link cart-premium">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Feeding Section -->
+    <section class="feeding-section">
+        <div class="container">
+            <div class="back-nav">
+                <a href="tools.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Mom Tools</span>
+                </a>
+            </div>
+            <h1>🍼 Feeding Tracker</h1>
+            
+            <!-- Quick Feed Buttons -->
+            <div class="quick-feed-section">
+                <h2>Quick Log</h2>
+                <div class="feed-buttons">
+                    <button class="feed-btn breast" onclick="quickFeed('breast')">🤱 Breast</button>
+                    <button class="feed-btn bottle" onclick="quickFeed('bottle')">🍼 Bottle</button>
+                    <button class="feed-btn solid" onclick="quickFeed('solid')">🥄 Solid</button>
+                </div>
+            </div>
+
+            <!-- Today's Feedings -->
+            <div class="schedule-grid">
+                <h2>Today's Feedings</h2>
+                <div id="feedingSchedule">
+                    <div class="no-feeding">No feedings logged today</div>
+                </div>
+            </div>
+
+            <!-- Feeding Tips -->
+            <div class="tool-card">
+                <h2>💡 Feeding Tips</h2>
+                <div class="feeding-tips">
+                    <div class="tip-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h3>Feeding Schedule</h3>
+                            <p>Newborns feed every 2-3 hours. Follow baby's hunger cues.</p>
+                        </div>
+                    </div>
+                    <div class="tip-item">
+                        <i class="fas fa-baby"></i>
+                        <div>
+                            <h3>Starting Solids</h3>
+                            <p>Introduce solids around 6 months. Start with single ingredients.</p>
+                        </div>
+                    </div>
+                    <div class="tip-item">
+                        <i class="fas fa-tint"></i>
+                        <div>
+                            <h3>Hydration</h3>
+                            <p>Breastfed babies don't need extra water until 6 months.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav-premium">
+        <a href="index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="shop.html" class="nav-item">
+            <i class="fas fa-store"></i>
+            <span>Shop</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <i class="fas fa-box"></i>
+            <span>Orders</span>
+        </a>
+        <a href="tools.html" class="nav-item">
+            <i class="fas fa-heart"></i>
+            <span>Mom Tools</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <script>
+        function quickFeed(type) {
+            const time = new Date().toLocaleTimeString('en-IN', {hour: '2-digit', minute: '2-digit'});
+            const feedingData = JSON.parse(localStorage.getItem('feedingData')) || [];
+            feedingData.push({ 
+                time: new Date().toISOString(), 
+                type: type, 
+                amount: '' 
+            });
+            localStorage.setItem('feedingData', JSON.stringify(feedingData));
+            
+            loadFeedingSchedule();
+            alert(`✅ ${type.charAt(0).toUpperCase() + type.slice(1)} feeding logged at ${time}`);
+        }
+
+        function loadFeedingSchedule() {
+            const container = document.getElementById('feedingSchedule');
+            const feedingData = JSON.parse(localStorage.getItem('feedingData')) || [];
+            const today = new Date().toDateString();
+            const todayFeedings = feedingData.filter(f => new Date(f.time).toDateString() === today);
+            
+            if (todayFeedings.length === 0) {
+                container.innerHTML = '<div class="no-feeding">No feedings logged today</div>';
+                return;
+            }
+            
+            container.innerHTML = todayFeedings.map(feeding => `
+                <div class="feeding-item">
+                    <div class="feeding-time">${new Date(feeding.time).toLocaleTimeString('en-IN', {hour: '2-digit', minute: '2-digit'})}</div>
+                    <div class="feeding-type">${feeding.type}</div>
+                    <div class="feeding-amount">${feeding.amount || ''}</div>
+                </div>
+            `).join('');
+        }
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCountElement = document.querySelector('.cart-count');
+            if (cartCountElement) {
+                cartCountElement.textContent = totalItems;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFeedingSchedule();
+            updateCartCount();
+        });
+    </script>
+
+    <style>
+        .feeding-section {
+            padding: 20px 0 100px;
+            background: var(--gray-50);
+            min-height: 100vh;
+        }
+
+        .feeding-section h1 {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .quick-feed-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-md);
+            text-align: center;
+        }
+
+        .quick-feed-section h2 {
+            font-size: 24px;
+            color: var(--gray-900);
+            margin-bottom: 20px;
+        }
+
+        .feed-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .feed-btn {
+            background: var(--success-green);
+            color: white;
+            border: none;
+            padding: 20px 30px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.3s;
+            min-width: 120px;
+        }
+
+        .feed-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feed-btn.breast {
+            background: var(--accent-pink);
+        }
+
+        .feed-btn.bottle {
+            background: var(--primary-blue);
+        }
+
+        .feed-btn.solid {
+            background: var(--accent-orange);
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .tool-card h2 {
+            font-size: 24px;
+            color: var(--gray-900);
+            margin-bottom: 20px;
+        }
+
+        .feeding-tips {
+            display: grid;
+            gap: 20px;
+        }
+
+        .tip-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 20px;
+            background: var(--gray-50);
+            border-radius: 12px;
+        }
+
+        .tip-item i {
+            font-size: 24px;
+            color: var(--primary-blue);
+            margin-top: 4px;
+        }
+
+        .tip-item h3 {
+            font-size: 16px;
+            color: var(--gray-900);
+            margin-bottom: 4px;
+        }
+
+        .tip-item p {
+            font-size: 14px;
+            color: var(--gray-600);
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .feed-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .feed-btn {
+                width: 100%;
+                max-width: 200px;
+            }
+        }
+    </style>
+</body>
+</html>
